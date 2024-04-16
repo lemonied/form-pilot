@@ -9,11 +9,18 @@ export default () => {
   console.log('control2', control2);
 
   return (
-    <Form control={control}>
+    <Form
+      control={control}
+      initialValue={{
+        group1: {
+          field1: '123',
+        },
+      }}
+    >
       <Form.Group name="group1">
-        <Form.Field name="field1" control={control2}>
+        <Form.Control name="field1" control={control2}>
           <input />
-        </Form.Field>
+        </Form.Control>
       </Form.Group>
     </Form>
   );

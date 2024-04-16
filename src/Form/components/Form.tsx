@@ -1,29 +1,29 @@
 import React from 'react';
-import type { FormControl } from '../hooks';
-import { useFormControl } from '../hooks';
+import { useControl } from '../hooks';
 import { DriverType } from '../utils';
-import { FormDriverContext, useCreateDriver } from './DriverContext';
-import { FormField } from './Field';
+import { FormDriverContext, useDriver } from './DriverContext';
+import { FormControl } from './Control';
+import type { SharedControlProps } from './Control';
 import { FormGroup } from './Group';
 
-interface FormProps<Value = any> {
-  name?: string;
-  control?: FormControl<Value>;
+interface FormProps<Value = any> extends SharedControlProps<Value> {
   children?: React.ReactNode;
 }
 interface FormType {
   <Values = any>(props: FormProps<Values>): React.JSX.Element;
-  Field: typeof FormField;
+  Control: typeof FormControl;
   Group: typeof FormGroup;
-  useControl: typeof useFormControl;
+  useControl: typeof useControl;
 }
 const Form: FormType = (props: FormProps) => {
-  const { name = 'form', control, children } = props;
+  const { name = 'form', control, initialValue, children } = props;
 
-  const driver = useCreateDriver({
+  const driver = useDriver({
     type: DriverType.Group,
+    root: true,
     name,
     control,
+    initialValue,
   });
 
   return (
@@ -33,8 +33,8 @@ const Form: FormType = (props: FormProps) => {
   );
 };
 
-Form.Field = FormField;
+Form.Control = FormControl;
 Form.Group = FormGroup;
-Form.useControl = useFormControl;
+Form.useControl = useControl;
 
 export { Form };

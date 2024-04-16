@@ -1,94 +1,112 @@
 import type { NamePaths } from './model';
-import { get, set } from './valueUtil';
+import { get } from './valueUtil';
+
+const EMPTY_VALUE = Symbol('EMPTY_VALUE');
 
 export enum ChangeType {
-  Value,
-  Meta,
+  Value = 'value',
+  Meta = 'meta',
+  Reset = 'reset',
 }
 
 export enum DriverType {
-  Field,
-  Group,
-  List,
+  Control = 'control',
+  Group = 'group',
+  List = 'list',
 }
 
-export enum TriggerType {
-  Event,
-  Manual,
-  Remove,
-}
-
-export interface ValueChangeEvent<Value = any> {
+export interface ValueChangeEvent {
   type: ChangeType.Value;
-  source: TriggerType;
-  previous: Value | undefined;
-  current: Value | undefined;
 }
 
 export interface MetaChangeEvent {
   type: ChangeType.Meta;
 }
 
-export type ChangeEvent = ValueChangeEvent | MetaChangeEvent;
+export interface ResetEvent {
+  type: ChangeType.Reset;
+}
+
+export type ChangeEvent = ValueChangeEvent | MetaChangeEvent | ResetEvent;
 
 interface Listener {
   (evt: ChangeEvent): any;
 }
 
 export class Driver<Value = any> {
-  private type: DriverType = DriverType.Field;
+
+  private type: DriverType = DriverType.Control;
+
+  private parent?: Driver = undefined;
 
   private children?: Driver[] = undefined;
 
-  private name: NamePaths = [];
+  private name?: NamePaths;
 
-  private value?: Value = undefined;
+  private value?: Value | symbol = EMPTY_VALUE;
+
+  private initialValue?: Value = undefined;
 
   private listeners: Listener[] = [];
 
-  private init = () => {
-    this.watch((evt) => {
-      if (evt.type === ChangeType.Value) {
-        this.children?.forEach((child) => {
-          const next = get(evt.current, child.getName());
-          child.triggerValueChange(next, TriggerType.Manual);
-        });
-      }
-    });
-  };
-
-  constructor(type: DriverType, name: NamePaths, initialValue?: Value) {
+  constructor(type: DriverType, name?: NamePaths) {
     this.type = type;
     this.name = name;
-    this.value = initialValue;
     if (type === DriverType.Group || type === DriverType.List) {
       this.children = [];
     }
-
-    this.init();
   }
+
+  public getParent = () => this.parent;
+
+  public getInitialValue = (): Value | undefined => {
+    return this.initialValue ?? get(this.getParent()?.getInitialValue(), this.getName());
+  };
 
   public getName = () => this.name;
 
-  public getValue = () => this.value;
+  public getValue = () => {
+    if (this.value === EMPTY_VALUE) {
+      return this.getInitialValue();
+    }
+    return this.value as Exclude<typeof this.value, symbol>;
+  };
 
   public getType = () => this.type;
 
-  public triggerValueChange = (
-    value: Value | undefined,
-    source: TriggerType,
-  ) => {
-    const previous = this.getValue();
-    if (previous !== value) {
+  public setInitialValue = (value?: Value) => this.initialValue = value;
+
+  public reset = () => {
+    this.setValue(this.getInitialValue());
+  };
+
+  public setName = (name?: NamePaths) => {
+    this.name = name;
+  };
+
+  public triggerValueChange() {
+    this.listeners.forEach((listener) => listener({
+      type: ChangeType.Value,
+    }));
+    this.parent?.triggerValueChange();
+  }
+
+  public setValue = (value?: Value) => {
+    const type = this.getType();
+    if (type === DriverType.Control) {
+      const previous = this.getValue();
+      if (previous === value) {
+        return;
+      }
       this.value = value;
-      this.listeners.forEach((listener) =>
-        listener({
-          type: ChangeType.Value,
-          source,
-          previous,
-          current: this.value,
-        }),
-      );
+      this.triggerValueChange();
+    } else {
+      this.children?.forEach(child => {
+        const name = child.getName();
+        if (name) {
+          child.setValue(get(value, name));
+        }
+      });
     }
   };
 
@@ -114,38 +132,18 @@ export class Driver<Value = any> {
   };
 
   public registerChild = (child: Driver) => {
-    if (!this.children) {
+    if (!this.children || this.children.includes(child)) {
       return;
     }
     this.children.push(child);
-    child.triggerValueChange(
-      get(this.getValue(), child.getName()),
-      TriggerType.Manual,
-    );
-    const stopWatch = child.watch((evt) => {
-      if (evt.type === ChangeType.Value) {
-        const previous = (this.getValue() ??
-          (this.getType() === DriverType.List ? [] : {})) as any;
-        const current = set(previous, child.getName(), {
-          type: evt.source === TriggerType.Remove ? 'delete' : 'assign',
-          value: evt.current,
-        });
-        this.triggerValueChange(current, evt.source);
-        if (evt.source === TriggerType.Remove) {
-          this.removeChild(child);
-        }
-      }
-    });
+    child.parent = this;
+    if (child.getType() === DriverType.Control) {
+      child.triggerValueChange();
+    }
     return () => {
-      stopWatch();
       this.removeChild(child);
+      child.parent = undefined;
     };
   };
 
-  public destroy = () => {
-    this.listeners = [];
-    if (this.children) {
-      this.children = [];
-    }
-  };
 }

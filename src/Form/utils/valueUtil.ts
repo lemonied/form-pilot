@@ -41,38 +41,46 @@ export function clone<T extends object>(data: T) {
   return (Array.isArray(data) ? [...data] : Object.assign({}, data)) as T;
 }
 
-interface SetOptions {
-  type?: 'assign' | 'delete';
-  value?: any;
-  deepClone?: boolean;
-}
-export function set<T extends Record<string, any> | any[]>(
-  data: T,
-  name: NamePaths,
-  options: SetOptions,
-) {
-  const { type = 'assign', deepClone = true, value } = options;
+export function set<T extends Record<string, any> | any[]>(data: T, name: NamePaths, value: any, immutable = true) {
 
-  if (type === 'delete' && !has(data, name)) {
-    return data;
-  }
-
-  const ret: any = deepClone ? clone(data) : data;
+  const ret: any = immutable ? clone(data) : data;
 
   let current = ret;
   for (let i = 0; i < name.length; i += 1) {
     const key = name[i];
     if (i === name.length - 1) {
-      if (type === 'assign') {
-        current[key] = value;
-      } else if (Array.isArray(current)) {
+      current[key] = value;
+      return ret as T;
+    }
+    if (immutable) {
+      current[key] = clone(current[key]);
+    }
+    current = current[key];
+  }
+
+  return ret as T;
+}
+
+export function del<T extends Record<string, any> | any[]>(data: T, name: NamePaths, immutable = false) {
+
+  const ret: any = immutable ? clone(data) : data;
+
+  if (!has(data, name)) {
+    return data;
+  }
+
+  let current = ret;
+  for (let i = 0; i < name.length; i += 1) {
+    const key = name[i];
+    if (i === name.length - 1) {
+      if (Array.isArray(current)) {
         current.splice(Number(key), 1);
       } else {
         delete current[key];
       }
       return ret as T;
     }
-    if (deepClone) {
+    if (immutable) {
       current[key] = clone(current[key]);
     }
     current = current[key];
