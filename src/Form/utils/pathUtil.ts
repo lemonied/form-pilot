@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NamePath } from '../utils';
+import type { NamePath, NamePaths } from './model';
 
 const toNamePaths = (name?: NamePath) => {
   if (typeof name === 'undefined') {
@@ -27,4 +27,14 @@ export const useNamePaths = (name?: NamePath) => {
   }
 
   return ref.current;
+};
+
+export const matchPaths = (paths?: NamePaths, subPaths?: NamePaths, exact = false) => {
+  if (!paths || !subPaths) {
+    return false;
+  }
+  if (exact && paths.length !== subPaths.length) {
+    return false;
+  }
+  return paths.every((v, k) => v === subPaths[k]);
 };
