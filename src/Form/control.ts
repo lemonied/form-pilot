@@ -1,7 +1,7 @@
 import type { FormStore } from './store';
 import { Subscriber } from './subscriber';
 
-export const INTERNAL_TOKEN = '_CONTROL_INTERNAL_HOOKS_TOKEN__';
+export const INTERNAL_CONTROL_TOKEN = '_CONTROL_INTERNAL_HOOKS_TOKEN__';
 
 export class Controller {
 
@@ -21,7 +21,7 @@ export class Controller {
     this.valueChange.trigger(...args);
   };
 
-  public getControl() {
+  public getControl = () => {
     const ret = {
       getValue: this.getValue,
       getInternalHooks: this.getInternalHooks,
@@ -29,12 +29,12 @@ export class Controller {
       valueChange: this.valueChange,
     };
     return ret as Omit<typeof ret, 'getInternalHooks'>;
-  }
+  };
 
   public getInternalHooks = (token: string) => {
-    if (token === INTERNAL_TOKEN) {
+    if (token === INTERNAL_CONTROL_TOKEN) {
       return {
-        store: this.store,
+        getStore: () => this.store,
         setStore: this.setStore,
       };
     }

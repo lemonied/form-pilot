@@ -1,12 +1,19 @@
 import React from 'react';
 import { FormRootProvider } from './Context';
 import type { Control } from './control';
+import { FormItem } from './Item';
+import { useControl } from './useControl';
 
 export interface FormProps {
   children?: React.ReactNode;
   control?: Control;
 }
-export const Form = (props: FormProps) => {
+interface FormType {
+  (props: FormProps): React.JSX.Element;
+  Item: typeof FormItem;
+  useControl: typeof useControl;
+}
+const Form: FormType = (props: FormProps) => {
 
   const { children, control } = props;
 
@@ -16,3 +23,8 @@ export const Form = (props: FormProps) => {
     >{children}</FormRootProvider>
   );
 };
+
+Form.Item = FormItem;
+Form.useControl = useControl;
+
+export { Form };

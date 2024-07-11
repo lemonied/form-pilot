@@ -4,11 +4,11 @@ import { FormStoreType } from './store';
 import type { NamePath } from './utils/model';
 import { useNamePaths } from './utils/pathUtil';
 import type { Control, InternalControl } from './control';
-import { INTERNAL_TOKEN } from './control';
+import { INTERNAL_CONTROL_TOKEN } from './control';
 
-const FormStoreContext = React.createContext<{ store: FormStore } | null>(null);
+const FormStoreContext = React.createContext<FormStore | undefined>(undefined);
 
-export const useFormStore = () => React.useContext(FormStoreContext)?.store;
+export const useFormStore = () => React.useContext(FormStoreContext);
 
 interface FormStoreProps {
   children?: React.ReactNode;
@@ -32,12 +32,10 @@ const FormStoreProviderHOC = (type: FormStoreType, root = false) => {
         parent: parent?.isCollection ? parent : undefined,
         names,
       });
-      
     }
-    const nextState = React.useMemo(() => ({ store: storeRef.current }), []);
 
     React.useEffect(() => {
-      const hooks = (control as InternalControl)?.getInternalHooks(INTERNAL_TOKEN);
+      const hooks = (control as InternalControl)?.getInternalHooks(INTERNAL_CONTROL_TOKEN);
       return hooks?.setStore(storeRef.current);
     }, [control]);
 
@@ -57,7 +55,7 @@ const FormStoreProviderHOC = (type: FormStoreType, root = false) => {
     }, []);
 
     return (
-      <FormStoreContext.Provider value={nextState}>{children}</FormStoreContext.Provider>
+      <FormStoreContext.Provider value={storeRef.current}>{children}</FormStoreContext.Provider>
     );
   };
   return Provider;
