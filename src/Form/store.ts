@@ -1,4 +1,4 @@
-import { Subscriber } from './subscriber';
+import { Subscriber } from './utils/subscriber';
 import type { NamePaths } from './utils/model';
 import { set, get, isNil, isPlainObject } from './utils/valueUtil';
 
@@ -16,7 +16,7 @@ interface FormStoreInitOptions {
 
 export class FormStore {
 
-  private stores: FormStore[] = [];
+  private stores: FormStore[];
 
   private parent?: FormStore = undefined;
 
@@ -36,10 +36,21 @@ export class FormStore {
     this.names = names;
     this.parent = parent;
     this.type = type;
-    if (names) {
+  }
+
+  public init() {
+    if (this.names) {
       this.value = this.formatValue(
-        get(parent?.getValue(), names),
+        get(this.parent?.getValue(), this.names),
       );
+    }
+    this.stores.push(this);
+  }
+
+  public destroy() {
+    const index = this.stores.indexOf(this);
+    if (index > -1) {
+      this.stores.splice(index, 1);
     }
   }
 
@@ -89,7 +100,6 @@ export class FormStore {
     this.lock = true;
     const oldValue = this.value;
     this.value = value;
-    this.valueChange.trigger(this.value, oldValue);
     if (this.isCollection) {
       const children = this.getChildren();
       children.forEach(child => {
@@ -99,6 +109,7 @@ export class FormStore {
     if (this.parent && this.names) {
       this.parent.patchValue(set(this.parent.getValue(), this.names, this.value));
     }
+    this.valueChange.trigger(this.value, oldValue);
     this.lock = false;
   }
 
@@ -106,12 +117,10 @@ export class FormStore {
     return this.stores;
   }
 
-  public getFullNames(): NamePaths {
-    const names = this.names || [];
-    if (this.parent) {
-      return [...this.parent.getFullNames(), ...(this.names || [])];
+  public getFullNames(): NamePaths | undefined {
+    if (this.names) {
+      return [...(this.parent?.getFullNames() || []), ...this.names];
     }
-    return names;
   }
 
   public getNames() {
@@ -120,7 +129,16 @@ export class FormStore {
 
   public setNames(names?: NamePaths) {
     if (names !== this.names) {
+      const previousNames = this.names;
       this.names = names;
+      if (this.parent && names) {
+        let nextParentValue = this.parent.getValue();
+        if (previousNames) {
+          nextParentValue = set(nextParentValue, previousNames, undefined);
+        }
+        nextParentValue = set(nextParentValue, names, this.value);
+        this.parent.patchValue(nextParentValue);
+      }
     }
   }
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import { FormStore } from './store';
-import { FormStoreType } from './store';
+import { FormStore, FormStoreType } from './store';
 import type { NamePath } from './utils/model';
 import { useNamePaths } from './utils/pathUtil';
 import type { Control, InternalControl } from './control';
@@ -44,13 +43,9 @@ const FormStoreProviderHOC = (type: FormStoreType, root = false) => {
     }, [names]);
 
     React.useEffect(() => {
-      const stores = storeRef.current.getStores();
-      stores.push(storeRef.current);
+      storeRef.current.init();
       return () => {
-        const index = stores.indexOf(storeRef.current);
-        if (index > -1) {
-          stores.splice(index, 1);
-        }
+        storeRef.current.destroy();
       };
     }, []);
 

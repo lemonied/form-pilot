@@ -1,5 +1,5 @@
 import type { FormStore } from './store';
-import { Subscriber } from './subscriber';
+import { Subscriber } from './utils/subscriber';
 
 export const INTERNAL_CONTROL_TOKEN = '_CONTROL_INTERNAL_HOOKS_TOKEN__';
 
@@ -23,10 +23,11 @@ export class Controller {
 
   public getControl = () => {
     const ret = {
+      getNames: this.getNames,
       getValue: this.getValue,
-      getInternalHooks: this.getInternalHooks,
       setValue: this.setValue,
       valueChange: this.valueChange,
+      getInternalHooks: this.getInternalHooks,
     };
     return ret as Omit<typeof ret, 'getInternalHooks'>;
   };
@@ -83,6 +84,10 @@ export class Controller {
         this.stores.splice(index, 1);
       });
     }
+  };
+
+  public getNames = () => {
+    return this.store?.getNames();
   };
 
 }

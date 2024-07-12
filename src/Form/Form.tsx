@@ -3,6 +3,7 @@ import { FormRootProvider } from './Context';
 import type { Control } from './control';
 import { FormItem } from './Item';
 import { useControl } from './useControl';
+import { useOnValueChange, useSyncValue } from './useValue';
 
 export interface FormProps {
   children?: React.ReactNode;
@@ -12,6 +13,8 @@ interface FormType {
   (props: FormProps): React.JSX.Element;
   Item: typeof FormItem;
   useControl: typeof useControl;
+  useOnValueChange: typeof useOnValueChange;
+  useSyncValue: typeof useSyncValue;
 }
 const Form: FormType = (props: FormProps) => {
 
@@ -26,5 +29,7 @@ const Form: FormType = (props: FormProps) => {
 
 Form.Item = FormItem;
 Form.useControl = useControl;
+Form.useOnValueChange = useOnValueChange;
+Form.useSyncValue = useSyncValue;
 
 export { Form };

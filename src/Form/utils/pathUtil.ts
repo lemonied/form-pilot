@@ -1,7 +1,7 @@
 import React from 'react';
 import type { NamePath, NamePaths } from './model';
 
-const toNamePaths = (name?: NamePath) => {
+export const toNamePaths = (name?: NamePath) => {
   if (typeof name === 'undefined') {
     return undefined;
   }

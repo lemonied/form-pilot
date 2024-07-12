@@ -2,7 +2,7 @@ import React from 'react';
 import type { NamePath } from './utils/model';
 import { FormFieldProvider } from './Context';
 import { defaultGetValueFromEvent } from './utils/valueUtil';
-import { useOnValueChange } from './useValue';
+import { useSyncValue } from './useValue';
 import { useControl } from './useControl';
 import type { Control } from './control';
 
@@ -11,16 +11,14 @@ const FormItemContent = (props: React.PropsWithChildren) => {
   const { children } = props;
 
   const control = useControl();
-  const [state, setState] = React.useState(control.getValue());
-
-  useOnValueChange((value) => setState(value), control);
+  const value = useSyncValue(control);
 
   const _children = React.useMemo(() => {
     const list = React.Children.toArray(children);
     const firstChild = list[0];
     if (React.isValidElement(firstChild)) {
       list[0] = React.cloneElement<any>(firstChild, {
-        value: state,
+        value,
         onChange(...args: any[]) {
           control.setValue(
             defaultGetValueFromEvent('value', args[0]),
@@ -30,7 +28,7 @@ const FormItemContent = (props: React.PropsWithChildren) => {
       });
     }
     return list;
-  }, [children, state, control]);
+  }, [children, value, control]);
 
   return _children;
 };
