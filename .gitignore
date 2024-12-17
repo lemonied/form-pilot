@@ -1,0 +1,9 @@
+node_modules
+/dist
+/lib
+/docs-dist
+/coverage
+.dumi/tmp
+.dumi/tmp-test
+.dumi/tmp-production
+.DS_Store

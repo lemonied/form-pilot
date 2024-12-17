@@ -1,0 +1,83 @@
+{
+  "name": "form-pilot",
+  "version": "0.0.1",
+  "description": "A react library developed with dumi",
+  "license": "MIT",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev",
+    "dev": "dumi dev",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "lint": "npm run lint:es && npm run lint:css",
+    "lint:css": "stylelint \"src/**/*.{css,less}\"",
+    "lint:es": "eslint \"{src,docs,tests}/**/*.{js,jsx,ts,tsx}\"",
+    "prepare": "husky install && dumi setup",
+    "prepublishOnly": "father doctor && npm run build",
+    "start": "npm run dev",
+    "test": "jest",
+    "cov": "jest --coverage"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@umijs/lint": "^4.3.36",
+    "dumi": "^2.4.14",
+    "eslint": "^8.23.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "father": "^4.5.1",
+    "husky": "^8.0.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.0.0",
+    "prettier-plugin-packagejson": "^2.2.18",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "styled-components": "^6.1.13",
+    "stylelint": "^14.9.1",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.2"
+  },
+  "peerDependencies": {
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "authors": [
+    "chenjiyuan.super@gmail.com"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lemonied/form-pilot"
+  },
+  "homepage": "https://lemonied.github.io/form-pilot",
+  "keywords": [
+    "component",
+    "components",
+    "react",
+    "react19",
+    "react-component",
+    "form",
+    "form-control"
+  ]
+}

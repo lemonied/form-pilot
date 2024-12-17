@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "paths": {
+      "@@/*": [".dumi/tmp/*"],
+      "form-pilot": ["src"]
+    }
+  },
+  "include": [
+    ".dumirc.ts",
+    "src/**/*",
+    "docs/examples/**/*",
+    "tests/**/*"
+  ]
+}
