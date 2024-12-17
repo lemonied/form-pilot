@@ -4,13 +4,8 @@ import type { SharedControlProps } from './hooks/Control';
 import { STORE_INTERNAL_TOKEN } from './hooks/store';
 import type { InternalControl } from './hooks/store';
 import { exchange } from './utils/valueUtil';
-import type { Control } from './utils/interface';
+import type { Control, FormListFieldData } from './utils/interface';
 import { useControlInstance } from './hooks/useContext';
-
-export interface FormListFieldData {
-  name: number;
-  key: number;
-}
 
 const correctFieldsName = (fields: FormListFieldData[]) => {
   return fields.map((field, index) => {

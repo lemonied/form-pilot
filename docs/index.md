@@ -1,22 +1,18 @@
 ---
+title: FormPilot
 hero:
-  title: library
-  description: A react library developed with dumi
+  title: FormPilot
+  description: The data controller of the form does not render any DOM elements
   actions:
-    - text: Hello
-      link: /
-    - text: World
-      link: /
-features:
-  - title: Hello
-    emoji: 💎
-    description: Put hello description here
-  - title: World
-    emoji: 🌈
-    description: Put world description here
-  - title: '!'
-    emoji: 🚀
-    description: Put ! description here
+    - text: Details
+      link: /api
 ---
 
-form-pilot
+[![NPM version](https://img.shields.io/npm/v/form-pilot.svg?style=flat)](https://npmjs.org/package/form-pilot)
+&nbsp;[![NPM downloads](http://img.shields.io/npm/dm/form-pilot.svg?style=flat)](https://npmjs.org/package/form-pilot)
+
+## installation
+
+```bash
+npm install form-pilot
+```

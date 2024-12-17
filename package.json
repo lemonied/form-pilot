@@ -12,6 +12,7 @@
     "build": "father build",
     "build:watch": "father dev",
     "dev": "dumi dev",
+    "dev-scan": "SCAN=1 npm run dev",
     "docs:build": "dumi build",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",

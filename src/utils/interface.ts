@@ -60,3 +60,8 @@ export interface Validation {
 }
 
 export type Variable = Record<string, string | number | undefined | null>;
+
+export interface FormListFieldData {
+  name: number;
+  key: number;
+}
