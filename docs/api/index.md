@@ -30,42 +30,42 @@ The root element of the form, no actual DOM node will be created
 
 ### Form.Group
 Similar to Form, with an additional name attribute
-| property        | description        | type                                      | default value |
-| --------------- | ------------------ | ----------------------------------------- | ------------- |
-| children        | `React.ReactNode`  | `React.ReactNode`                         | `null`        |
-| control         | Form Control       | `Control`                                 | `void`        |
-| rules           | Verification rules | `Omit<Rule, 'validateTrigger'>[]`         | `void`        |
-| validateMode    | validate mode      | `ValidateMode`                            | `serial`      |
-| validateTrigger | validate trigger   | `ValidateTrigger`                         | `onChange`    |
-| ref             | React.Ref          | `React.Ref<Control \| undefined \| null>` | `void`        |
-| initialValue    | initialValue       | `any`                                     | `void`        |
-| name            | input name         | `NamePath`                                | `void`        |
+| property        | description                                          | type                                      | default value |
+| --------------- | ---------------------------------------------------- | ----------------------------------------- | ------------- |
+| children        | `React.ReactNode`                                    | `React.ReactNode`                         | `null`        |
+| control         | Form Control                                         | `Control`                                 | `void`        |
+| rules           | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`         | `void`        |
+| validateMode    | validate mode                                        | `ValidateMode`                            | `serial`      |
+| validateTrigger | validate trigger                                     | `ValidateTrigger`                         | `onChange`    |
+| ref             | React.Ref                                            | `React.Ref<Control \| undefined \| null>` | `void`        |
+| initialValue    | If a parent control exists, it will not take effect. | `any`                                     | `void`        |
+| name            | input name                                           | `NamePath`                                | `void`        |
 
 ### Form.Item
 The smallest unit of a form, used to control input, select, or custom form controls (needs to support attributes value and onChange)
-| property        | description        | type                                      | default value |
-| --------------- | ------------------ | ----------------------------------------- | ------------- |
-| children        | Input box          | `React.ReactElement`                      | `null`        |
-| control         | Form Control       | `Control`                                 | `void`        |
-| rules           | Verification rules | `Omit<Rule, 'validateTrigger'>[]`         | `void`        |
-| validateMode    | validate mode      | `ValidateMode`                            | `serial`      |
-| validateTrigger | validate trigger   | `ValidateTrigger`                         | `onChange`    |
-| ref             | React.Ref          | `React.Ref<Control \| undefined \| null>` | `void`        |
-| initialValue    | initialValue       | `any`                                     | `void`        |
-| name            | input name         | `NamePath`                                | `void`        |
+| property        | description                                          | type                                      | default value |
+| --------------- | ---------------------------------------------------- | ----------------------------------------- | ------------- |
+| children        | Input box                                            | `React.ReactElement`                      | `null`        |
+| control         | Form Control                                         | `Control`                                 | `void`        |
+| rules           | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`         | `void`        |
+| validateMode    | validate mode                                        | `ValidateMode`                            | `serial`      |
+| validateTrigger | validate trigger                                     | `ValidateTrigger`                         | `onChange`    |
+| ref             | React.Ref                                            | `React.Ref<Control \| undefined \| null>` | `void`        |
+| initialValue    | If a parent control exists, it will not take effect. | `any`                                     | `void`        |
+| name            | input name                                           | `NamePath`                                | `void`        |
 
 ### Form.List
 Used to render array type form data
-| property        | description        | type                                                                 | default value |
-| --------------- | ------------------ | -------------------------------------------------------------------- | ------------- |
-| children        | child elements     | `(fields: FormListFieldData[], control: Control) => React.ReactNode` | `null`        |
-| control         | Form Control       | `Control`                                                            | `void`        |
-| rules           | Verification rules | `Omit<Rule, 'validateTrigger'>[]`                                    | `void`        |
-| validateMode    | validate mode      | `ValidateMode`                                                       | `serial`      |
-| validateTrigger | validate trigger   | `ValidateTrigger`                                                    | `onChange`    |
-| ref             | React.Ref          | `React.Ref<Control \| undefined \| null>`                            | `void`        |
-| initialValue    | initialValue       | `any`                                                                | `void`        |
-| name            | input name         | `NamePath`                                                           | `void`        |
+| property        | description                                          | type                                                                 | default value |
+| --------------- | ---------------------------------------------------- | -------------------------------------------------------------------- | ------------- |
+| children        | child elements                                       | `(fields: FormListFieldData[], control: Control) => React.ReactNode` | `null`        |
+| control         | Form Control                                         | `Control`                                                            | `void`        |
+| rules           | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`                                    | `void`        |
+| validateMode    | validate mode                                        | `ValidateMode`                                                       | `serial`      |
+| validateTrigger | validate trigger                                     | `ValidateTrigger`                                                    | `onChange`    |
+| ref             | React.Ref                                            | `React.Ref<Control \| undefined \| null>`                            | `void`        |
+| initialValue    | If a parent control exists, it will not take effect. | `any`                                                                | `void`        |
+| name            | input name                                           | `NamePath`                                                           | `void`        |
 
 ### Form.useControl
 Create a Form Control

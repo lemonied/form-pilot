@@ -45,7 +45,8 @@ const CustomItem = (props: FormItemProps) => {
 export default () => {
   const control = Form.useControl();
   return (
-    <form onSubmit={() => {
+    <form onSubmit={(e) => {
+      e.preventDefault();
       control.validateFields().then(values => {
         // eslint-disable-next-line no-console
         console.log(values);

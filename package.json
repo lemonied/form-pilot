@@ -1,6 +1,6 @@
 {
   "name": "form-pilot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A react library developed with dumi",
   "license": "MIT",
   "module": "lib/index.js",
@@ -78,6 +78,7 @@
     "react",
     "react19",
     "react-component",
+    "headless",
     "form",
     "form-control"
   ]
