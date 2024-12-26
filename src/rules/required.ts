@@ -1,7 +1,10 @@
 import { IntrinsicRule, IntrinsicRuleError } from './core';
 import type { IntrinsicRuleParams } from './core';
 
-const rule = new IntrinsicRule('"${name}" is required');
+const rule = new IntrinsicRule({
+  name: 'required',
+  defaultMessage: '"${name}" is required',
+});
 
 export const required = rule.factory((params?: IntrinsicRuleParams) => {
   const { message, ...rest } = params || {};

@@ -1,9 +1,8 @@
+import { STORE_INTERNAL_TOKEN } from '../utils/constants';
 import type { Control, NamePaths, NonNullableNamePaths, Rule, ValidateOptions, ValidationError } from '../utils/interface';
 import { matchPaths, toNamePaths } from '../utils/pathUtil';
 import { Subscriber } from '../utils/subscriber';
 import { basePick, get, isPlainObject, set } from '../utils/valueUtil';
-
-export const STORE_INTERNAL_TOKEN = '_STORE_INTERNAL_TOKEN_';
 
 const controlSymbol = Symbol('control');
 
@@ -54,6 +53,7 @@ export class FormStore {
   public validating?: Promise<any>;
   public validationChange = new Subscriber<FormStore['validating']>();
   public validationErrors?: ValidationError[];
+  public validateMessages?: Record<string, string>;
 
   public valueChange = new Subscriber<ValueChangeParameter>();
   public listChange = new Subscriber<ListChangeParameter>();

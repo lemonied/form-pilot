@@ -1,7 +1,10 @@
 import { IntrinsicRule, IntrinsicRuleError } from './core';
 import type { IntrinsicRuleParams } from './core';
 
-const maxLengthRule = new IntrinsicRule('"${name}" can contain up to ${length} characters');
+const maxLengthRule = new IntrinsicRule({
+  name: 'maxLength',
+  defaultMessage: '"${name}" can contain up to ${length} characters',
+});
 
 export const maxLength = maxLengthRule.factory((max: number, params?: IntrinsicRuleParams) => {
   const { message, ...rest } = params || {};
@@ -25,7 +28,10 @@ export const maxLength = maxLengthRule.factory((max: number, params?: IntrinsicR
   };
 });
 
-const minLengthRule = new IntrinsicRule('"${name}" must be at least ${length} characters');
+const minLengthRule = new IntrinsicRule({
+  name: 'minLength',
+  defaultMessage: '"${name}" must be at least ${length} characters',
+});
 
 export const minLength = minLengthRule.factory((min: number, params?: IntrinsicRuleParams) => {
   const { message, ...rest } = params || {};

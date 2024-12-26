@@ -1,6 +1,6 @@
 import React from 'react';
 import type { InternalControl } from './hooks/store';
-import { STORE_INTERNAL_TOKEN } from './hooks/store';
+import { STORE_INTERNAL_TOKEN } from './utils/constants';
 import type { SharedControlProps } from './hooks/Control';
 import FormControl, { useControl } from './hooks/Control';
 

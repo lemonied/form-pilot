@@ -1,7 +1,7 @@
 import React from 'react';
 import FormControl, { useControl } from './hooks/Control';
 import type { SharedControlProps } from './hooks/Control';
-import { STORE_INTERNAL_TOKEN } from './hooks/store';
+import { STORE_INTERNAL_TOKEN } from './utils/constants';
 import type { InternalControl } from './hooks/store';
 import { exchange } from './utils/valueUtil';
 import type { Control, FormListFieldData } from './utils/interface';

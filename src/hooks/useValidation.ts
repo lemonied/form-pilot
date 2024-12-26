@@ -1,5 +1,5 @@
 import React from 'react';
-import { STORE_INTERNAL_TOKEN } from './store';
+import { STORE_INTERNAL_TOKEN } from '../utils/constants';
 import type { InternalControl } from './store';
 import type { Control, ValidationError, Validation } from '../utils/interface';
 import { useMergedInstance } from './useContext';

@@ -1,3 +1,5 @@
+import { STORE_INTERNAL_TOKEN } from '../utils/constants';
+import type { InternalControl } from '../hooks/store';
 import type { Control, Rule, ValidateMode, ValidateType, ValidationError, Variable } from '../utils/interface';
 
 export function replaceMessage(template: string, kv: Variable): string {
@@ -26,8 +28,11 @@ export class IntrinsicRule {
 
   public defaultMessage: string;
 
-  constructor(defaultMessage: string) {
-    this.defaultMessage = defaultMessage;
+  public name: string;
+
+  constructor(params: Pick<IntrinsicRule, 'name' | 'defaultMessage'>) {
+    this.defaultMessage = params.defaultMessage;
+    this.name = params.name;
   }
 
   public setDefaultMessage = (defaultMessage: string) => {
@@ -51,7 +56,8 @@ export class IntrinsicRule {
                 if (typeof err.message === 'string') {
                   return err.message;
                 }
-                return replaceMessage(this.defaultMessage, {
+                const validateMessage = (control as InternalControl).getStore(STORE_INTERNAL_TOKEN).validateMessages?.[this.name];
+                return replaceMessage(validateMessage ?? this.defaultMessage, {
                   name: control.getFullName()?.join(','),
                   ...err.variable,
                 });
@@ -65,18 +71,15 @@ export class IntrinsicRule {
           }
         },
       };
-      Object.defineProperty(mergedRule, '__internal_mark__', {
-        get: () => ret,
-      });
       return mergedRule;
-    }) as (T & Pick<IntrinsicRule, 'setDefaultMessage' | 'defaultMessage'> & { isProduced: (rule: Rule) => boolean });
+    }) as (T & Pick<IntrinsicRule, 'setDefaultMessage' | 'defaultMessage' | 'name'>);
     ret.setDefaultMessage = this.setDefaultMessage;
     Object.defineProperty(ret, 'defaultMessage', {
       get: () => this.defaultMessage,
     });
-    ret.isProduced = (rule: any) => {
-      return rule?.__internal_mark__ === ret;
-    };
+    Object.defineProperty(ret, 'name', {
+      get: () => this.name,
+    });
     return ret;
   }
 }

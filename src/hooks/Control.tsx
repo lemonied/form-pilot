@@ -1,9 +1,11 @@
 import React from 'react';
-import { FormStore, STORE_INTERNAL_TOKEN } from './store';
+import { FormStore } from './store';
 import type { InternalControl } from './store';
 import type { NamePath, NonNullableNamePaths, Control, Rule, ValidateMode, ValidateTrigger } from '../utils/interface';
 import { useNamePaths } from '../utils/pathUtil';
+import { STORE_INTERNAL_TOKEN } from '../utils/constants';
 import { executeRules } from '../rules/core';
+import { useConfig } from './ConfigProvider';
 
 export interface FormControlContextType {
   control?: Control;
@@ -158,6 +160,9 @@ const FormControl = (props: FormControlProps) => {
   const { validateMode, validateTrigger } = restProps;
   const namePaths = useNamePaths(name);
   const control = useControl(_control) as InternalControl;
+
+  const config = useConfig();
+  control.getStore(STORE_INTERNAL_TOKEN).validateMessages = config.validateMessages;
 
   const nextContext = React.useMemo<FormControlContextType | undefined>(() => {
     return {

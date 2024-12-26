@@ -1,11 +1,12 @@
 import React from 'react';
 import type { Listener } from '../utils/subscriber';
-import { isInternalControl, STORE_INTERNAL_TOKEN } from './store';
+import { isInternalControl } from './store';
 import type { InternalControl, ValueChangeParameter } from './store';
 import type { Control, NamePath } from '../utils/interface';
 import { useMergedInstance } from './useContext';
 import { get } from '../utils/valueUtil';
 import { useNamePaths } from '../utils/pathUtil';
+import { STORE_INTERNAL_TOKEN } from '../utils/constants';
 
 export const useOnValueChange = <T = any>(fn: Listener<ValueChangeParameter<T>>, control?: Control) => {
   const mergedControl = useMergedInstance(control) as InternalControl;
