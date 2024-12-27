@@ -15,10 +15,6 @@ const TestComponent = (props: FormProps & { mock: (...args: any[]) => any }) => 
   return (
     <Form
       {...restProps}
-      initialValues={{
-        name: 'lemonied',
-        age: '18',
-      }}
     >
       <Form.Group
         name="information"
