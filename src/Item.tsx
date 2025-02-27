@@ -101,6 +101,8 @@ const FormItem = (props: FormItemProps) => {
     control: _control,
     children,
     valuePropName,
+    trigger,
+    getValueFromEvent,
     rules,
     ...restProps
   } = props;
@@ -126,6 +128,8 @@ const FormItem = (props: FormItemProps) => {
       <FormItemContent
         key={key}
         valuePropName={valuePropName}
+        trigger={trigger}
+        getValueFromEvent={getValueFromEvent}
         rules={rules}
       >{children}</FormItemContent>
     </FormControl>

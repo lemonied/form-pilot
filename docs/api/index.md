@@ -12,6 +12,7 @@ title: Documents
 
 ### Validation
 <code src="../examples/ComplexForm/ValidationBase.tsx" debug></code>
+<code src="../examples/ComplexForm/GetValueFromEvent.tsx" debug></code>
 <code src="../examples/ComplexForm/Validation.tsx"></code>
 
 ## API
