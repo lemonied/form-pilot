@@ -24,6 +24,8 @@ const InputRender = (props: InputRenderProps) => {
 
 interface FormItemContentProps {
   valuePropName?: string;
+  getValueFromEvent?: (...args: any[]) => any;
+  trigger?: string;
   children?: React.ReactNode;
   rules?: Rule[];
 }
@@ -31,6 +33,8 @@ const FormItemContent = (props: FormItemContentProps) => {
   const {
     children,
     valuePropName = 'value',
+    getValueFromEvent,
+    trigger = 'onChange',
     rules = [],
   } = props;
 
@@ -64,7 +68,7 @@ const FormItemContent = (props: FormItemContentProps) => {
         };
         return pre;
       }, {
-        onChange: firstChild.props.onChange,
+        [trigger]: firstChild.props[trigger],
       });
       return (
         <InputRender
@@ -72,12 +76,12 @@ const FormItemContent = (props: FormItemContentProps) => {
           key="inputRender"
           restProps={{
             ...mergedProps,
-            onChange(...args: any[]) {
+            [trigger]: (...args: any[]) => {
               store.touched = true;
               store.setData({
-                value: defaultGetValueFromEvent(valuePropName, args[0]),
+                value: typeof getValueFromEvent === 'function' ? getValueFromEvent(...args) : defaultGetValueFromEvent(valuePropName, args[0]),
               });
-              return mergedProps.onChange?.(...args);
+              return mergedProps[trigger]?.(...args);
             },
           }}
         />
