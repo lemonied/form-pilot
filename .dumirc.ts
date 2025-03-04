@@ -19,4 +19,8 @@ export default defineConfig({
       github: 'https://github.com/lemonied/form-pilot',
     },
   },
+  locales: [
+    { id: 'zh-CN', name: '简体中文' },
+    { id: 'en-US', name: 'English' },
+  ],
 });

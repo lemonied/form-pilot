@@ -2,15 +2,15 @@
 title: Documents
 ---
 
-## 示例
+## Demo
 
-### 一般使用
+### NormalForm
 <code src="../examples/NormalForm.tsx"></code>
 
-### 初始数据
+### InitialValue
 <code src="../examples/InitialValue.tsx"></code>
 
-### 表单校验
+### Validation
 <code src="../examples/ComplexForm/ValidationBase.tsx" debug></code>
 <code src="../examples/ComplexForm/GetValueFromEvent.tsx" debug></code>
 <code src="../examples/ComplexForm/Validation.tsx"></code>
@@ -18,7 +18,7 @@ title: Documents
 ## API
 
 ### Form
-表单的根元素
+The root element of the form, no actual DOM node will be created
 | property        | description        | type                                      | default value |
 | --------------- | ------------------ | ----------------------------------------- | ------------- |
 | children        | `React.ReactNode`  | `React.ReactNode`                         | `null`        |
@@ -30,7 +30,7 @@ title: Documents
 | initialValues   | initialValues      | `any`                                     | `void`        |
 
 ### Form.Group
-类似 Form，但有额外的 name 属性
+Similar to Form, with an additional name attribute
 | property        | description                                          | type                                      | default value |
 | --------------- | ---------------------------------------------------- | ----------------------------------------- | ------------- |
 | children        | `React.ReactNode`                                    | `React.ReactNode`                         | `null`        |
@@ -43,7 +43,7 @@ title: Documents
 | name            | input name                                           | `NamePath`                                | `void`        |
 
 ### Form.Item
-表单的最小单元，用于控制输入、选择，或者自定义表单控件（需支持属性value和onChange）
+The smallest unit of a form, used to control input, select, or custom form controls (needs to support attributes value and onChange)
 | property          | description                                          | type                                      | default value |
 | ----------------- | ---------------------------------------------------- | ----------------------------------------- | ------------- |
 | children          | Input box                                            | `React.ReactElement`                      | `null`        |
@@ -59,7 +59,7 @@ title: Documents
 | trigger           | value trigger event name                             | `string`                                  | `onChange`    |
 
 ### Form.List
-渲染array类型的数据
+Used to render array type form data
 | property        | description                                          | type                                                                 | default value |
 | --------------- | ---------------------------------------------------- | -------------------------------------------------------------------- | ------------- |
 | children        | child elements                                       | `(fields: FormListFieldData[], control: Control) => React.ReactNode` | `null`        |
@@ -71,51 +71,21 @@ title: Documents
 | initialValue    | If a parent control exists, it will not take effect. | `any`                                                                | `void`        |
 | name            | input name                                           | `NamePath`                                                           | `void`        |
 
-### Form.Update
-动态更新，根据条件判断来决定是否更新子元素，多用于动态表单
-| property  | description                                                                         | type                                        | default value |
-| --------- | ----------------------------------------------------------------------------------- | ------------------------------------------- | ------------- |
-| children  | 子元素                                                                              | `(control?: Control) => React.ReactNode`    |
-| control   | FormControl（不传时使用当前Context下的FormControl）                                 | `Control`                                   | `void`        |
-| condition | 条件判断，返回`true`时重绘子元素,不传表示始终重绘子元素（当表单变化时就重绘子元素） | `(newValue: any, oldValue: any) => boolean` | `void`        |
-
-### Form.Validation
-表单校验渲染组件，用于渲染表单元素的校验结果
-| property | description                                     | type                                                              | default value |
-| -------- | ----------------------------------------------- | ----------------------------------------------------------------- | ------------- |
-| children | 子元素                                          | `(validation?: Validation, control?: Control) => React.ReactNode` |
-| control  | Control（不传时使用当前`Context`下的`control`） | `Control`                                                         | `void`        |
-
 ### Form.useControl
-创建一个表单控制器
+Create a Form Control
 ```ts
 type useControl = (control?: Control) => Control
 ```
 
 ### Form.useControlInstance
-返回当前`Context`下的`control`，`root`为`true`时返回根节点的`control`
+The current control example, `root` is `true` to get the top instance
 ```ts
 type useControlInstance = (root?: boolean) => Control | undefined
 ```
 
 ### Form.useOnValueChange
-监听某个control的值变化
 ```ts
 type useOnValueChange = <T = any>(fn: ({ newValue: T, oldValue: T }) => void, control?: Control) => void;
-```
-
-### Form.useWatch
-返回某个control的实时值
-```ts
-export function useWatch<T = any>(name: NamePath, control?: Control): T;
-export function useWatch<T = any, R = any>(selector: (values: T) => R, control?: Control): T;
-export function useWatch<T = any>(control?: Control): T;
-```
-
-### Form.useValidation
-返回某个control的校验结果
-```ts
-type useValidation = (control?: Control) => Validation;
 ```
 
 ## interface

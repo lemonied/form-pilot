@@ -32,7 +32,6 @@ interface FormType {
   useConfig: typeof useConfig;
   Validation: typeof ValidationRender;
   Update: typeof UpdateRender;
-  
 }
 
 const Form: FormType = (props) => {
