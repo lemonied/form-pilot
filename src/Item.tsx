@@ -9,21 +9,20 @@ import type { Rule } from './utils/interface';
 import { useControlInstance, useControlContext } from './hooks/useContext';
 import { executeRules } from './rules/core';
 
-interface InputRenderProps {
+interface InputRenderProps extends Record<string, unknown> {
   element: React.ReactElement<any>;
-  restProps: Record<string, any>;
+  valuePropName: string;
 }
 const InputRender = (props: InputRenderProps) => {
-  const { element, restProps } = props;
+  const { element, valuePropName, ...restProps } = props;
   const value = useWatch();
   return React.cloneElement(element, {
     ...restProps,
-    value,
+    [valuePropName]: value,
   });
 };
 
-interface FormItemContentProps {
-  valuePropName?: string;
+interface FormItemContentProps extends Partial<Pick<InputRenderProps, 'valuePropName'>> {
   getValueFromEvent?: (...args: any[]) => any;
   trigger?: string;
   children?: React.ReactNode;
@@ -72,10 +71,8 @@ const FormItemContent = (props: FormItemContentProps) => {
       });
       return (
         <InputRender
-          element={firstChild}
-          key="inputRender"
-          restProps={{
-            ...mergedProps,
+          {...mergedProps}
+          {...({
             [trigger]: (...args: any[]) => {
               store.touched = true;
               store.setData({
@@ -83,7 +80,10 @@ const FormItemContent = (props: FormItemContentProps) => {
               });
               return mergedProps[trigger]?.(...args);
             },
-          }}
+          })}
+          valuePropName={valuePropName}
+          element={firstChild}
+          key="inputRender"
         />
       );
     }
