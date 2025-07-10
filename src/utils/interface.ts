@@ -10,6 +10,12 @@ export interface ValidateOptions {
   thrownTypes?: ValidateType[];
 }
 
+export enum FormStoreType {
+  Group = 'group',
+  List = 'list',
+  Item = 'item',
+}
+
 export interface Control<Value = any> {
   getValue: () => Value;
   getStrictValue: (name?: NamePath[]) => Value;
@@ -27,18 +33,19 @@ export interface Control<Value = any> {
   remove: (index: number) => void;
   move: (from: number, to: number) => void;
   get: (name?: NamePath) => this | undefined;
+  getStoreStype(): FormStoreType;
 }
 
 export type ValidateTrigger = 'onChange' | 'onBlur' | 'onFocus';
 
 /**
- * @default error
+ * @default 'error'
  * @description Error Type.
  */
 export type ValidateType = 'error' | 'warning';
 
 /**
- * @default serial
+ * @default 'serial'
  */
 export type ValidateMode = 'parallel' | 'serial';
 

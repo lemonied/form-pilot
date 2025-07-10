@@ -31,18 +31,27 @@ const CustomItem = (props: FormItemProps) => {
 export default () => {
   const control = Form.useControl();
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      control.validateFields().then(values => {
-        // eslint-disable-next-line no-console
-        console.log(values);
-      }).catch(err => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      });
-      return false;
-    }}>
-      <Form control={control} initialValues={{ nickname: 'hello world', information: { age: 18, email: '' }, skills: [{ name: 'basketball', desc: 'A+' }] }}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        control.validateFields().then(values => {
+          // eslint-disable-next-line no-console
+          console.log(values);
+        }).catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+        return false;
+      }}
+    >
+      <Form
+        control={control}
+        initialValues={{
+          nickname: 'hello world',
+          information: { age: 18, email: '' },
+          skills: [{ name: 'basketball', desc: 'A+' }],
+        }}
+      >
         <CustomItem
           name="nickname"
           rules={[Rules.required(), Rules.maxLength(10, { type: 'warning' })]}

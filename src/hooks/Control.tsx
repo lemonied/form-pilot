@@ -2,6 +2,7 @@ import React from 'react';
 import { FormStore } from './store';
 import type { InternalControl } from './store';
 import type { NamePath, NonNullableNamePaths, Control, Rule, ValidateMode, ValidateTrigger } from '../utils/interface';
+import { FormStoreType } from '../utils/interface';
 import { useNamePaths } from '../utils/pathUtil';
 import { STORE_INTERNAL_TOKEN } from '../utils/constants';
 import { executeRules } from '../rules/core';
@@ -67,7 +68,7 @@ const FormControlContent = (props: FormControlContentProps) => {
   const uniqueKeyRef = React.useRef({});
 
   const { parent, validateMode } = React.useContext(FormControlContext) || {};
-  const parentStore = (parent as InternalControl)?.getStore(STORE_INTERNAL_TOKEN);
+  const parentStore = (parent as InternalControl)?.getStore(STORE_INTERNAL_TOKEN) as (FormStore | undefined);
 
   const currentStore = (control as InternalControl).getStore(STORE_INTERNAL_TOKEN);
   currentStore.parent = parentStore;
@@ -131,7 +132,7 @@ const FormControlWrapper = (props: FormControlContentProps) => {
       validateTrigger: _validateTrigger,
     } = context || {};
     const parent = collection[collection.length - 1];
-    if ((control as InternalControl).getStore(STORE_INTERNAL_TOKEN).type !== 'item') {
+    if ((control as InternalControl).getStore(STORE_INTERNAL_TOKEN).type !== FormStoreType.Item) {
       collection = [...collection, control];
       namePathList = [...namePathList, namePaths];
     }
@@ -180,7 +181,7 @@ const FormControl = (props: FormControlProps) => {
         <FormControlContent
           {...restProps}
           control={control}
-          namePaths={defaultNamePaths}
+          namePaths={namePaths ?? defaultNamePaths}
         />
       </FormControlContext.Provider>
     );

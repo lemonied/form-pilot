@@ -3,6 +3,8 @@
 [![NPM version](https://img.shields.io/npm/v/form-pilot.svg?style=flat)](https://npmjs.org/package/form-pilot)
 [![NPM downloads](http://img.shields.io/npm/dm/form-pilot.svg?style=flat)](https://npmjs.org/package/form-pilot)
 
+## Headless Form Controller
+
 The data controller of the form does not render any DOM elements
 
 ## Dependencies
@@ -29,7 +31,10 @@ const CustomItem = (props: FormItemProps) => {
                 {
                   validation?.results?.map((result, index) => {
                     return (
-                      <span key={index} style={{ color: result.type === 'error' ? 'red' : 'orange' }} >{result.message}</span>
+                      <span
+                        key={index}
+                        style={{ color: result.type === 'error' ? 'red' : 'orange' }}
+                      >{result.message}</span>
                     );
                   })
                 }
@@ -45,18 +50,27 @@ const CustomItem = (props: FormItemProps) => {
 export default () => {
   const control = Form.useControl();
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      control.validateFields().then(values => {
-        // eslint-disable-next-line no-console
-        console.log(values);
-      }).catch(err => {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      });
-      return false;
-    }}>
-      <Form control={control} initialValues={{ nickname: 'hello world', information: { age: 18, email: '' }, skills: [{ name: 'basketball', desc: 'A+' }] }}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        control.validateFields().then(values => {
+          // eslint-disable-next-line no-console
+          console.log(values);
+        }).catch(err => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+        return false;
+      }}
+    >
+      <Form
+        control={control}
+        initialValues={{
+          nickname: 'hello world',
+          information: { age: 18, email: '' },
+          skills: [{ name: 'basketball', desc: 'A+' }],
+        }}
+      >
         <CustomItem
           name="nickname"
           rules={[Rules.required(), Rules.maxLength(10, { type: 'warning' })]}

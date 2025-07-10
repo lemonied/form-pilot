@@ -127,6 +127,15 @@ export interface Control<Value = any> {
   remove: (index: number) => void;
   move: (from: number, to: number) => void;
   get: (name?: NamePath) => this | undefined;
+  getStoreStype(): FormStoreType;
+}
+```
+
+```ts
+export enum FormStoreType {
+  Group = 'group',
+  List = 'list',
+  Item = 'item',
 }
 ```
 

@@ -6,6 +6,7 @@ import type { InternalControl } from './hooks/store';
 import { useWatch } from './hooks/useValue';
 import { defaultGetValueFromEvent } from './utils/valueUtil';
 import type { Rule } from './utils/interface';
+import { FormStoreType } from './utils/interface';
 import { useControlInstance, useControlContext } from './hooks/useContext';
 import { executeRules } from './rules/core';
 
@@ -110,7 +111,7 @@ const FormItem = (props: FormItemProps) => {
 
   const control = useControl(_control) as InternalControl;
   const store = control.getStore(STORE_INTERNAL_TOKEN);
-  store.type = 'item';
+  store.type = FormStoreType.Item;
 
   React.useEffect(() => {
     return store.resetChange.add(() => {

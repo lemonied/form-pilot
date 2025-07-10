@@ -13,8 +13,9 @@ import { useValidation } from './hooks/useValidation';
 import { UpdateRender, ValidationRender } from './Render';
 import { useControlInstance } from './hooks/useContext';
 import { ConfigProvider, useConfig } from './hooks/ConfigProvider';
+import { FormStoreType } from './utils/interface';
 
-export interface FormProps extends Omit<SharedControlProps, 'initialValue' | 'name'> {
+export interface FormProps extends Omit<SharedControlProps, 'initialValue'> {
   initialValues?: any;
 }
 
@@ -39,13 +40,12 @@ const Form: FormType = (props) => {
   const { initialValues, control: _control, ...restProps } = props;
 
   const control = useControl(_control) as InternalControl;
-  control.getStore(STORE_INTERNAL_TOKEN).type = 'group';
+  control.getStore(STORE_INTERNAL_TOKEN).type = FormStoreType.Group;
 
   return (
     <FormControl
       {...restProps}
       control={control}
-      name={undefined}
       initialValue={initialValues}
       root
     />

@@ -4,7 +4,7 @@ import type { SharedControlProps } from './hooks/Control';
 import { STORE_INTERNAL_TOKEN } from './utils/constants';
 import type { InternalControl } from './hooks/store';
 import { exchange } from './utils/valueUtil';
-import type { Control, FormListFieldData } from './utils/interface';
+import { FormStoreType, type Control, type FormListFieldData } from './utils/interface';
 import { useControlInstance } from './hooks/useContext';
 
 const correctFieldsName = (fields: FormListFieldData[]) => {
@@ -109,7 +109,7 @@ const FormList = (props: FormListProps) => {
   const { control: _control, children, ...restProps } = props;
 
   const control = useControl(_control) as InternalControl;
-  control.getStore(STORE_INTERNAL_TOKEN).type = 'list';
+  control.getStore(STORE_INTERNAL_TOKEN).type = FormStoreType.List;
 
   return (
     <FormControl

@@ -1,5 +1,6 @@
 import { STORE_INTERNAL_TOKEN } from '../utils/constants';
 import type { Control, NamePaths, NonNullableNamePaths, Rule, ValidateOptions, ValidationError } from '../utils/interface';
+import { FormStoreType } from '../utils/interface';
 import { matchPaths, toNamePaths } from '../utils/pathUtil';
 import { Subscriber } from '../utils/subscriber';
 import { basePick, get, isPlainObject, set } from '../utils/valueUtil';
@@ -35,7 +36,7 @@ export class FormStore {
 
   private lock = false;
 
-  public type: 'group' | 'list' | 'item' = 'item';
+  public type: FormStoreType = FormStoreType.Item;
 
   public parent?: FormStore;
 
@@ -96,10 +97,10 @@ export class FormStore {
   }
 
   public getInitializedValue() {
-    if (this.type === 'list' && !Array.isArray(this.value)) {
+    if (this.type === FormStoreType.List && !Array.isArray(this.value)) {
       return [];
     }
-    if (this.type === 'group' && !isPlainObject(this.value)) {
+    if (this.type === FormStoreType.Group && !isPlainObject(this.value)) {
       return Object.assign({}, this.value);
     }
     return this.value;
@@ -195,17 +196,17 @@ export class FormStore {
   }
 
   public getStrictValue: Control['getStrictValue'] = (name) => {
-    if (this.type === 'item') {
+    if (this.type === FormStoreType.Item) {
       return this.value;
     }
     let value: any;
     const nameList = name?.map(toNamePaths) as (NonNullableNamePaths[] | undefined);
     const currentValue = this.getInitializedValue();
-    const deep = (stores: Set<FormStore>, prefix: NamePaths = []) => {
+    const recursion = (stores: Set<FormStore>, prefix: NamePaths = []) => {
       stores.forEach(store => {
         const relativeNamePaths = [...prefix, ...store.namePaths];
         if (
-          store.type === 'item' &&
+          store.type === FormStoreType.Item &&
           (!nameList || nameList.some(namePath => !namePath || matchPaths(namePath, relativeNamePaths)))
         ) {
           value = basePick(
@@ -214,10 +215,10 @@ export class FormStore {
             value,
           );
         }
-        deep(store.children, relativeNamePaths);
+        recursion(store.children, relativeNamePaths);
       });
     };
-    deep(this.children);
+    recursion(this.children);
     return value;
   };
 
@@ -280,12 +281,12 @@ export class FormStore {
 
     const promises: (() => Promise<void>)[] = [];
 
-    const deep = (store: FormStore, _name?: typeof name, _options?: typeof options) => {
+    const recursion = (store: FormStore, _name?: typeof name, _options?: typeof options) => {
       const nameList = _name?.map(toNamePaths) as (NonNullableNamePaths[] | undefined);
       const { recursive } = _options || {};
       if (!nameList) {
         promises.push(() => store.validateOptionalThrow(options));
-        store.children.forEach(child => deep(child));
+        store.children.forEach(child => recursion(child));
         return;
       }
       if (!nameList.length) {
@@ -294,17 +295,17 @@ export class FormStore {
       if (nameList.some(namePath => !namePath)) {
         promises.push(() => store.validateOptionalThrow(options));
         if (recursive) {
-          store.children.forEach(child => deep(child));
+          store.children.forEach(child => recursion(child));
           return;
         }
       }
       store.children.forEach(child => {
         const matchs = nameList.filter(namePath => matchPaths(child.namePaths, namePath));
-        deep(child, matchs.map(match => match.slice(child.namePaths.length)), _options);
+        recursion(child, matchs.map(match => match.slice(child.namePaths.length)), _options);
       });
     };
 
-    deep(this, name, options);
+    recursion(this, name, options);
 
     const results: ValidationError[] = (await Promise.all(promises.map(fn => fn().catch(e => e)))).filter(Boolean);
     if (results.length) {
@@ -339,7 +340,7 @@ export class FormStore {
 
   public setFieldValue: Control['setFieldValue'] = (name, value) => {
     const namePaths = toNamePaths(name);
-    if (!namePaths || this.type === 'item') {
+    if (!namePaths || this.type === FormStoreType.Item) {
       return;
     }
     const control = this.get(namePaths);
@@ -357,7 +358,7 @@ export class FormStore {
   };
 
   public isTouched: Control['isTouched'] = () => {
-    if (this.type === 'item' || this.touched) {
+    if (this.type === FormStoreType.Item || this.touched) {
       return this.touched;
     }
     return Array.from(this.children).some(child => child.isTouched());
@@ -380,7 +381,7 @@ export class FormStore {
   };
 
   public add: Control['add'] = (initialValue, insertIndex) => {
-    if (this.type !== 'list') {
+    if (this.type !== FormStoreType.List) {
       throw new Error(`${this.type} has no method add.`);
     }
     this.listChange.trigger({
@@ -391,7 +392,7 @@ export class FormStore {
   };
 
   public remove: Control['remove'] = (index) => {
-    if (this.type !== 'list') {
+    if (this.type !== FormStoreType.List) {
       throw new Error(`${this.type} has no method remove.`);
     }
     this.listChange.trigger({
@@ -401,7 +402,7 @@ export class FormStore {
   };
 
   public move: Control['move'] = (from, to) => {
-    if (this.type !== 'list') {
+    if (this.type !== FormStoreType.List) {
       throw new Error(`${this.type} has no method move.`);
     }
     this.listChange.trigger({
@@ -444,6 +445,7 @@ export class FormStore {
     remove: this.remove,
     move: this.move,
     get: this.get,
+    getStoreStype: () => this.type,
   };
 
   public internalControl = {
