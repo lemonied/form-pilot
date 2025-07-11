@@ -65,4 +65,16 @@ Form.useConfig = useConfig;
 Form.Validation = ValidationRender;
 Form.Update = UpdateRender;
 
+export {
+  ConfigProvider,
+  useControl,
+  useOnValueChange,
+  useWatch,
+  useControlInstance,
+  useValidation,
+  useConfig,
+  ValidationRender,
+  UpdateRender,
+};
+
 export default Form;

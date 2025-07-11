@@ -7,6 +7,15 @@ const CustomItem = (props: FormItemProps) => {
   return (
     <div>
       <Form.Item {...props} control={control} />
+      <Form.Update control={control}>
+        {
+          (ctl) => {
+            // eslint-disable-next-line no-console
+            console.log(ctl?.getFullName(), ctl?.getValue());
+            return null;
+          }
+        }
+      </Form.Update>
       <Form.Validation control={control}>
         {
           (validation) => {
@@ -70,8 +79,19 @@ export default () => {
                       return (
                         <div key={field.key} style={{ display: 'flex' }}>
                           <Form.Group name={field.name}>
-                            <CustomItem name="name"><input /></CustomItem>
-                            <CustomItem name="desc"><input /></CustomItem>
+                            <CustomItem
+                              name="name"
+                              rules={[
+                                Rules.required(),
+                              ]}
+                            >
+                              <input />
+                            </CustomItem>
+                            <CustomItem
+                              name="desc"
+                            >
+                              <input />
+                            </CustomItem>
                             <button type="button" onClick={() => control.remove(field.name)}>remove this item</button>
                           </Form.Group>
                         </div>

@@ -18,6 +18,7 @@ export default () => {
         {new Date().toLocaleString()}
         <Form
           control={control}
+          name="normalForm"
           initialValues={{
             username: '默认值 root',
             password: 'password',

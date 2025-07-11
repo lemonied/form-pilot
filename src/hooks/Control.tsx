@@ -169,11 +169,11 @@ const FormControl = (props: FormControlProps) => {
     return {
       control,
       collection: [control],
-      namePathList: [],
+      namePathList: namePaths ? [namePaths] : [],
       validateMode,
       validateTrigger,
     };
-  }, [control, validateMode, validateTrigger]);
+  }, [control, namePaths, validateMode, validateTrigger]);
 
   if (root || !namePaths) {
     return (

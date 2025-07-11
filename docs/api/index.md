@@ -44,19 +44,19 @@ title: Documents
 
 ### Form.Item
 表单的最小单元，用于控制输入、选择，或者自定义表单控件（需支持属性value和onChange）
-| property          | description                                          | type                                      | default value |
-| ----------------- | ---------------------------------------------------- | ----------------------------------------- | ------------- |
-| children          | Input box                                            | `React.ReactElement`                      | `null`        |
-| control           | Form Control                                         | `Control`                                 | `void`        |
-| rules             | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`         | `void`        |
-| validateMode      | validate mode                                        | `ValidateMode`                            | `serial`      |
-| validateTrigger   | validate trigger                                     | `ValidateTrigger`                         | `onChange`    |
-| ref               | React.Ref                                            | `React.Ref<Control \| undefined \| null>` | `void`        |
-| initialValue      | If a parent control exists, it will not take effect. | `any`                                     | `void`        |
-| name              | input name                                           | `NamePath`                                | `void`        |
-| valuePropName     | value prop name                                      | `string`                                  | `value`       |
-| getValueFromEvent | custom get value                                     | `(...args: any[]) => any`                 | `void`        |
-| trigger           | value trigger event name                             | `string`                                  | `onChange`    |
+| property          | description                                          | type                                                                          | default value |
+| ----------------- | ---------------------------------------------------- | ----------------------------------------------------------------------------- | ------------- |
+| children          | Input box                                            | `React.ReactElement \| ((props: Record<string, unknown>) => React.ReactNode)` | `null`        |
+| control           | Form Control                                         | `Control`                                                                     | `void`        |
+| rules             | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`                                             | `void`        |
+| validateMode      | validate mode                                        | `ValidateMode`                                                                | `serial`      |
+| validateTrigger   | validate trigger                                     | `ValidateTrigger`                                                             | `onChange`    |
+| ref               | React.Ref                                            | `React.Ref<Control \| undefined \| null>`                                     | `void`        |
+| initialValue      | If a parent control exists, it will not take effect. | `any`                                                                         | `void`        |
+| name              | input name                                           | `NamePath`                                                                    | `void`        |
+| valuePropName     | value prop name                                      | `string`                                                                      | `value`       |
+| getValueFromEvent | custom get value                                     | `(...args: any[]) => any`                                                     | `void`        |
+| trigger           | value trigger event name                             | `string`                                                                      | `onChange`    |
 
 ### Form.List
 渲染array类型的数据
