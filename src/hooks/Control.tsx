@@ -14,7 +14,7 @@ export interface FormControlContextType {
   collection: Control[];
   namePathList: NonNullableNamePaths[];
   validateMode?: ValidateMode;
-  validateTrigger?: ValidateTrigger;
+  validateTrigger?: ValidateTrigger | ValidateTrigger[];
 }
 
 export const FormControlContext = React.createContext<FormControlContextType | undefined>(undefined);
@@ -47,7 +47,7 @@ export interface SharedControlProps {
   name?: NamePath;
   rules?: Omit<Rule, 'validateTrigger'>[];
   validateMode?: ValidateMode;
-  validateTrigger?: ValidateTrigger;
+  validateTrigger?: ValidateTrigger | ValidateTrigger[];
   ref?: React.Ref<Control | undefined | null>;
 }
 

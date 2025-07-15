@@ -1,6 +1,6 @@
 {
   "name": "form-pilot",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A react library developed with dumi",
   "license": "MIT",
   "module": "lib/index.js",
@@ -68,8 +68,7 @@
     "chenjiyuan.super@gmail.com"
   ],
   "repository": {
-    "type": "git",
-    "url": "https://github.com/lemonied/form-pilot"
+    "url": "git+https://github.com/lemonied/form-pilot.git"
   },
   "homepage": "https://lemonied.github.io/form-pilot",
   "keywords": [

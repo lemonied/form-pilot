@@ -25,7 +25,7 @@ title: Documents
 | control         | Form Control       | `Control`                                 | `void`        |
 | rules           | Verification rules | `Omit<Rule, 'validateTrigger'>[]`         | `void`        |
 | validateMode    | validate mode      | `ValidateMode`                            | `serial`      |
-| validateTrigger | validate trigger   | `ValidateTrigger`                         | `onChange`    |
+| validateTrigger | validate trigger   | `ValidateTrigger \| ValidateTrigger[]`    | `onChange`    |
 | ref             | React.Ref          | `React.Ref<Control \| undefined \| null>` | `void`        |
 | initialValues   | initialValues      | `any`                                     | `void`        |
 
@@ -37,7 +37,7 @@ title: Documents
 | control         | Form Control                                         | `Control`                                 | `void`        |
 | rules           | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`         | `void`        |
 | validateMode    | validate mode                                        | `ValidateMode`                            | `serial`      |
-| validateTrigger | validate trigger                                     | `ValidateTrigger`                         | `onChange`    |
+| validateTrigger | validate trigger                                     | `ValidateTrigger \| ValidateTrigger[]`    | `onChange`    |
 | ref             | React.Ref                                            | `React.Ref<Control \| undefined \| null>` | `void`        |
 | initialValue    | If a parent control exists, it will not take effect. | `any`                                     | `void`        |
 | name            | input name                                           | `NamePath`                                | `void`        |
@@ -50,7 +50,7 @@ title: Documents
 | control           | Form Control                                         | `Control`                                                                     | `void`        |
 | rules             | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`                                             | `void`        |
 | validateMode      | validate mode                                        | `ValidateMode`                                                                | `serial`      |
-| validateTrigger   | validate trigger                                     | `ValidateTrigger`                                                             | `onChange`    |
+| validateTrigger   | validate trigger                                     | `ValidateTrigger \| ValidateTrigger[]`                                        | `onChange`    |
 | ref               | React.Ref                                            | `React.Ref<Control \| undefined \| null>`                                     | `void`        |
 | initialValue      | If a parent control exists, it will not take effect. | `any`                                                                         | `void`        |
 | name              | input name                                           | `NamePath`                                                                    | `void`        |
@@ -66,7 +66,7 @@ title: Documents
 | control         | Form Control                                         | `Control`                                                            | `void`        |
 | rules           | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`                                    | `void`        |
 | validateMode    | validate mode                                        | `ValidateMode`                                                       | `serial`      |
-| validateTrigger | validate trigger                                     | `ValidateTrigger`                                                    | `onChange`    |
+| validateTrigger | validate trigger                                     | `ValidateTrigger \| ValidateTrigger[]`                               | `onChange`    |
 | ref             | React.Ref                                            | `React.Ref<Control \| undefined \| null>`                            | `void`        |
 | initialValue    | If a parent control exists, it will not take effect. | `any`                                                                | `void`        |
 | name            | input name                                           | `NamePath`                                                           | `void`        |

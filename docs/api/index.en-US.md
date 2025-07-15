@@ -25,7 +25,7 @@ The root element of the form, no actual DOM node will be created
 | control         | Form Control       | `Control`                                 | `void`        |
 | rules           | Verification rules | `Omit<Rule, 'validateTrigger'>[]`         | `void`        |
 | validateMode    | validate mode      | `ValidateMode`                            | `serial`      |
-| validateTrigger | validate trigger   | `ValidateTrigger`                         | `onChange`    |
+| validateTrigger | validate trigger   | `ValidateTrigger \| ValidateTrigger[]`    | `onChange`    |
 | ref             | React.Ref          | `React.Ref<Control \| undefined \| null>` | `void`        |
 | initialValues   | initialValues      | `any`                                     | `void`        |
 
@@ -37,7 +37,7 @@ Similar to Form, with an additional name attribute
 | control         | Form Control                                         | `Control`                                 | `void`        |
 | rules           | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`         | `void`        |
 | validateMode    | validate mode                                        | `ValidateMode`                            | `serial`      |
-| validateTrigger | validate trigger                                     | `ValidateTrigger`                         | `onChange`    |
+| validateTrigger | validate trigger                                     | `ValidateTrigger \| ValidateTrigger[]`    | `onChange`    |
 | ref             | React.Ref                                            | `React.Ref<Control \| undefined \| null>` | `void`        |
 | initialValue    | If a parent control exists, it will not take effect. | `any`                                     | `void`        |
 | name            | input name                                           | `NamePath`                                | `void`        |
@@ -50,7 +50,7 @@ The smallest unit of a form, used to control input, select, or custom form contr
 | control           | Form Control                                         | `Control`                                                                     | `void`        |
 | rules             | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`                                             | `void`        |
 | validateMode      | validate mode                                        | `ValidateMode`                                                                | `serial`      |
-| validateTrigger   | validate trigger                                     | `ValidateTrigger`                                                             | `onChange`    |
+| validateTrigger   | validate trigger                                     | `ValidateTrigger \| ValidateTrigger[]`                                        | `onChange`    |
 | ref               | React.Ref                                            | `React.Ref<Control \| undefined \| null>`                                     | `void`        |
 | initialValue      | If a parent control exists, it will not take effect. | `any`                                                                         | `void`        |
 | name              | input name                                           | `NamePath`                                                                    | `void`        |
@@ -66,7 +66,7 @@ Used to render array type form data
 | control         | Form Control                                         | `Control`                                                            | `void`        |
 | rules           | Verification rules                                   | `Omit<Rule, 'validateTrigger'>[]`                                    | `void`        |
 | validateMode    | validate mode                                        | `ValidateMode`                                                       | `serial`      |
-| validateTrigger | validate trigger                                     | `ValidateTrigger`                                                    | `onChange`    |
+| validateTrigger | validate trigger                                     | `ValidateTrigger \| ValidateTrigger[]`                               | `onChange`    |
 | ref             | React.Ref                                            | `React.Ref<Control \| undefined \| null>`                            | `void`        |
 | initialValue    | If a parent control exists, it will not take effect. | `any`                                                                | `void`        |
 | name            | input name                                           | `NamePath`                                                           | `void`        |
