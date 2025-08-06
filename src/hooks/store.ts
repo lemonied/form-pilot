@@ -364,15 +364,19 @@ export class FormStore {
     return Array.from(this.children).some(child => child.isTouched());
   };
 
-  public reset = (preventBubbling = false) => {
+  public reset = (preventBubbling = false, callbacks: (() => void)[] = []) => {
     this.setData({
       value: this.getInitialValue(),
       preventCapturing: true,
       preventBubbling,
+      eventInterceptor(emit) {
+        callbacks.push(emit);
+      },
     });
-    this.resetChange.trigger();
     this.touched = false;
-    this.children.forEach(child => child.reset(true));
+    this.children.forEach(child => child.reset(true, callbacks));
+    callbacks.push(() => this.resetChange.trigger());
+    callbacks.forEach(cb => cb());
   };
 
   public triggerReset: Control['reset'] = () => {
