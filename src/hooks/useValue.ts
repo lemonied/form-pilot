@@ -18,14 +18,14 @@ export const useOnValueChange = <T = any>(fn: Listener<ValueChangeParameter<T>>,
 };
 
 export function useWatch<T = any>(name: NamePath, control?: Control): T;
-export function useWatch<T = any, R = any>(selector: (values: T) => R, control?: Control): T;
+export function useWatch<T = any, R = any>(selector: (values: T, ctl: Control) => R, control?: Control): R;
 export function useWatch<T = any>(control?: Control): T;
 
-export function useWatch(arg1?: NamePath | Control | ((values: any) => any), arg2?: Control) {
+export function useWatch(arg1?: NamePath | Control | ((values: any, ctl: Control) => any), arg2?: Control) {
   
   let control: Control | undefined = undefined;
   let name: NamePath | undefined = undefined;
-  let selector = React.useRef<(values: any) => any>(undefined);
+  let selector = React.useRef<(values: any, ctl: Control) => any>(undefined);
 
   if (arg2) {
     control = arg2;
@@ -43,7 +43,7 @@ export function useWatch(arg1?: NamePath | Control | ((values: any) => any), arg
 
   const getValue = React.useCallback(() => {
     if (selector.current) {
-      return selector.current(mergedControl.getValue());
+      return selector.current(mergedControl.getValue(), mergedControl);
     }
     if (names) {
       return get(mergedControl.getValue(), names)[0];

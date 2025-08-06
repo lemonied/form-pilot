@@ -43,6 +43,9 @@ export const useControl = (control?: Control) => {
 export interface SharedControlProps {
   children?: React.ReactNode;
   control?: Control;
+  /**
+   * If a parent control exists, it will not take effect.
+   */
   initialValue?: any;
   name?: NamePath;
   rules?: Omit<Rule, 'validateTrigger'>[];

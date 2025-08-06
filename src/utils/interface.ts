@@ -18,7 +18,7 @@ export enum FormStoreType {
 
 export interface Control<Value = any> {
   getValue: () => Value;
-  getStrictValue: (name?: NamePath[]) => Value;
+  getStrictValue: <R = Value>(name?: NamePath[]) => R;
   getName: () => NonNullableNamePaths | undefined;
   getFullName: () => NonNullableNamePaths | undefined;
   setValue: (value?: Value) => Value;
@@ -26,7 +26,7 @@ export interface Control<Value = any> {
   isTouched: () => boolean;
   reset: () => void;
   validate: (options?: ValidateOptions) => Promise<Value>;
-  validateFields: (name?: NamePath[], options?: ValidateOptions & { recursive: boolean }) => Promise<Value>;
+  validateFields: <R = Value>(name?: NamePath[], options?: ValidateOptions & { recursive: boolean }) => Promise<R>;
   getValidationErrors: () => ValidationError[] | undefined;
   clearValidation: () => void;
   add: <T = any>(initialValue?: T, insertIndex?: number) => void;
