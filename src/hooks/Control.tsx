@@ -13,6 +13,7 @@ export interface FormControlContextType {
   parent?: Control;
   collection: Control[];
   namePathList: NonNullableNamePaths[];
+  namePaths?: NonNullableNamePaths;
   validateMode?: ValidateMode;
   validateTrigger?: ValidateTrigger | ValidateTrigger[];
 }
@@ -144,6 +145,7 @@ const FormControlWrapper = (props: FormControlContentProps) => {
       collection,
       parent,
       namePathList,
+      namePaths,
       validateTrigger: validateTrigger || _validateTrigger,
       validateMode: validateMode || _validateMode,
     };
@@ -173,6 +175,7 @@ const FormControl = (props: FormControlProps) => {
       control,
       collection: [control],
       namePathList: namePaths ? [namePaths] : [],
+      namePaths,
       validateMode,
       validateTrigger,
     };

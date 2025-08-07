@@ -28,9 +28,10 @@ The root element of the form, no actual DOM node will be created
 | validateTrigger | validate trigger   | `ValidateTrigger \| ValidateTrigger[]`    | `onChange`    |
 | ref             | React.Ref          | `React.Ref<Control \| undefined \| null>` | `void`        |
 | initialValues   | initialValues      | `any`                                     | `void`        |
+| name            | form name          | `NamePath`                                | `void`        |
 
 ### Form.Group
-Similar to Form, with an additional name attribute
+Similar to Form, Form.Group can have a parent control, but Form is always the top-level control.
 | property        | description                                          | type                                      | default value |
 | --------------- | ---------------------------------------------------- | ----------------------------------------- | ------------- |
 | children        | `React.ReactNode`                                    | `React.ReactNode`                         | `null`        |
@@ -40,7 +41,7 @@ Similar to Form, with an additional name attribute
 | validateTrigger | validate trigger                                     | `ValidateTrigger \| ValidateTrigger[]`    | `onChange`    |
 | ref             | React.Ref                                            | `React.Ref<Control \| undefined \| null>` | `void`        |
 | initialValue    | If a parent control exists, it will not take effect. | `any`                                     | `void`        |
-| name            | input name                                           | `NamePath`                                | `void`        |
+| name            | group name                                           | `NamePath`                                | `void`        |
 
 ### Form.Item
 The smallest unit of a form, used to control input, select, or custom form controls (needs to support attributes value and onChange)
@@ -71,6 +72,21 @@ Used to render array type form data
 | initialValue    | If a parent control exists, it will not take effect. | `any`                                                                | `void`        |
 | name            | input name                                           | `NamePath`                                                           | `void`        |
 
+### Form.Update
+Dynamic update, decide whether to update child elements based on conditional judgment, mostly used in dynamic forms
+| property  | description                                                                                                                                                                | type                                        | default value |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------- |
+| children  | child elements                                                                                                                                                             | `(control?: Control) => React.ReactNode`    |
+| control   | FormControl（If not passed, use the FormControl under the current Context）                                                                                                | `Control`                                   | `void`        |
+| condition | Conditional judgment, redraw sub-elements when `true` is returned, and if not passed, it means always redraw sub-elements (sub-elements are redrawn when the form changes) | `(newValue: any, oldValue: any) => boolean` | `void`        |
+
+### Form.Validation
+Form validation rendering component, used to render the validation results of form elements
+| property | description                                                             | type                                                              | default value |
+| -------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------- |
+| children | child elements                                                          | `(validation?: Validation, control?: Control) => React.ReactNode` |
+| control  | Control（If not passed, use the `control` under the current `Context`） | `Control`                                                         | `void`        |
+
 ### Form.useControl
 Create a Form Control
 ```ts
@@ -84,8 +100,23 @@ type useControlInstance = (root?: boolean) => Control | undefined
 ```
 
 ### Form.useOnValueChange
+Monitor the value changes of a control
 ```ts
 type useOnValueChange = <T = any>(fn: ({ newValue: T, oldValue: T }) => void, control?: Control) => void;
+```
+
+### Form.useWatch
+When the value of the control changes, return the value you want to get
+```ts
+export function useWatch<T = any>(name: NamePath, control?: Control<T>): T;
+export function useWatch<T = any, R = any>(selector: (values: T, ctl: Control<T>) => R, control?: Control<T>): R;
+export function useWatch<T = any>(control?: Control<T>): T;
+```
+
+### Form.useValidation
+Returns the verification result of a control
+```ts
+type useValidation = (control?: Control) => Validation;
 ```
 
 ## interface

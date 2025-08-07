@@ -28,9 +28,10 @@ title: Documents
 | validateTrigger | validate trigger   | `ValidateTrigger \| ValidateTrigger[]`    | `onChange`    |
 | ref             | React.Ref          | `React.Ref<Control \| undefined \| null>` | `void`        |
 | initialValues   | initialValues      | `any`                                     | `void`        |
+| name            | form name          | `NamePath`                                | `void`        |
 
 ### Form.Group
-类似 Form，但有额外的 name 属性
+类似 Form，Form.Group可以有父级control，Form始终为顶层control
 | property        | description                                          | type                                      | default value |
 | --------------- | ---------------------------------------------------- | ----------------------------------------- | ------------- |
 | children        | `React.ReactNode`                                    | `React.ReactNode`                         | `null`        |
@@ -40,7 +41,7 @@ title: Documents
 | validateTrigger | validate trigger                                     | `ValidateTrigger \| ValidateTrigger[]`    | `onChange`    |
 | ref             | React.Ref                                            | `React.Ref<Control \| undefined \| null>` | `void`        |
 | initialValue    | If a parent control exists, it will not take effect. | `any`                                     | `void`        |
-| name            | input name                                           | `NamePath`                                | `void`        |
+| name            | group name                                           | `NamePath`                                | `void`        |
 
 ### Form.Item
 表单的最小单元，用于控制输入、选择，或者自定义表单控件（需支持属性value和onChange）
@@ -105,11 +106,11 @@ type useOnValueChange = <T = any>(fn: ({ newValue: T, oldValue: T }) => void, co
 ```
 
 ### Form.useWatch
-返回某个control的实时值
+当control的值变化时，返回需要获取的值
 ```ts
-export function useWatch<T = any>(name: NamePath, control?: Control): T;
-export function useWatch<T = any, R = any>(selector: (values: T) => R, control?: Control): T;
-export function useWatch<T = any>(control?: Control): T;
+export function useWatch<T = any>(name: NamePath, control?: Control<T>): T;
+export function useWatch<T = any, R = any>(selector: (values: T, ctl: Control<T>) => R, control?: Control<T>): R;
+export function useWatch<T = any>(control?: Control<T>): T;
 ```
 
 ### Form.useValidation

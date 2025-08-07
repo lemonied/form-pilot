@@ -10,7 +10,9 @@ import { FormStoreType } from './utils/interface';
 import { useControlInstance, useControlContext } from './hooks/useContext';
 import { executeRules } from './rules/core';
 
-type InputProps = Record<string, unknown>;
+interface InputProps extends Record<string, unknown> {
+  name?: string;
+};
 interface InputRenderFunction {
   (props: InputProps): React.ReactNode;
 }
@@ -49,19 +51,17 @@ const FormItemContent = (props: FormItemContentProps) => {
   } = props;
 
   const control = useControlInstance() as InternalControl;
-  const { validateTrigger = 'onChange', validateMode, namePathList } = useControlContext();
+  const { validateTrigger = 'onChange', validateMode, namePathList, namePaths } = useControlContext();
 
   const nameProp = React.useMemo(() => {
 
-    const namePath = control.getName();
-
-    if (namePath) {
+    if (namePaths) {
       return {
-        name: (namePathList || []).concat([namePath]).flat(1).join('.'),
+        name: (namePathList || []).concat([namePaths]).flat(1).join('.'),
       };
     }
-    
-  }, [namePathList, control]);
+
+  }, [namePathList, namePaths]);
 
   const store = control.getStore(STORE_INTERNAL_TOKEN);
 
@@ -79,9 +79,9 @@ const FormItemContent = (props: FormItemContentProps) => {
     ].flat(1)),
   );
   const triggerProps = validateTriggers.reduce<Record<string, any>>((pre, key) => {
-    const last = pre[key];
+    const fn = pre[key];
     pre[key] = (...args: any[]) => {
-      last?.(...args);
+      fn?.(...args);
       store.validateByEvent(async () => {
         return await executeRules(control, validateMode, mergedRules.filter(rule => rule.validateTrigger.includes(key)));
       });
@@ -111,10 +111,10 @@ const FormItemContent = (props: FormItemContentProps) => {
     if (index === 0 && React.isValidElement<any>(child)) {
       const firstChild = child as React.ReactElement<any>;
       const mergedProps = Object.keys(triggerProps).reduce<Record<string, any>>((pre, key) => {
-        const last = triggerProps[key];
+        const fn = triggerProps[key];
         pre[key] = (...args: any[]) => {
-          last?.(...args);
-          return firstChild.props[trigger]?.(...args);
+          fn?.(...args);
+          return firstChild.props[key]?.(...args);
         };
         return pre;
       }, {

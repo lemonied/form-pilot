@@ -17,9 +17,9 @@ export const useOnValueChange = <T = any>(fn: Listener<ValueChangeParameter<T>>,
   }, [mergedControl]);
 };
 
-export function useWatch<T = any>(name: NamePath, control?: Control): T;
-export function useWatch<T = any, R = any>(selector: (values: T, ctl: Control) => R, control?: Control): R;
-export function useWatch<T = any>(control?: Control): T;
+export function useWatch<T = any>(name: NamePath, control?: Control<T>): T;
+export function useWatch<T = any, R = any>(selector: (values: T, ctl: Control<T>) => R, control?: Control<T>): R;
+export function useWatch<T = any>(control?: Control<T>): T;
 
 export function useWatch(arg1?: NamePath | Control | ((values: any, ctl: Control) => any), arg2?: Control) {
   
