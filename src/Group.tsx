@@ -1,8 +1,8 @@
 import React from 'react';
-import type { InternalControl } from './hooks/store';
+import type { InternalControl } from './core/store';
 import { STORE_INTERNAL_TOKEN } from './utils/constants';
-import type { SharedControlProps } from './hooks/Control';
-import FormControl, { useControl } from './hooks/Control';
+import type { SharedControlProps } from './core/Control';
+import FormControl, { useControl } from './core/Control';
 import { FormStoreType } from './utils/interface';
 
 export interface FormGroupProps extends SharedControlProps {

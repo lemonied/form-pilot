@@ -1,5 +1,5 @@
 import { STORE_INTERNAL_TOKEN } from '../utils/constants';
-import type { InternalControl } from '../hooks/store';
+import type { InternalControl } from '../core/store';
 import type { Control, Rule, ValidateMode, ValidateType, ValidationError, Variable } from '../utils/interface';
 
 export function replaceMessage(template: string, kv: Variable): string {

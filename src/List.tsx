@@ -1,11 +1,11 @@
 import React from 'react';
-import FormControl, { useControl } from './hooks/Control';
-import type { SharedControlProps } from './hooks/Control';
+import FormControl, { useControl } from './core/Control';
+import type { SharedControlProps } from './core/Control';
 import { STORE_INTERNAL_TOKEN } from './utils/constants';
-import type { InternalControl } from './hooks/store';
+import type { InternalControl } from './core/store';
 import { exchange } from './utils/valueUtil';
 import { FormStoreType, type Control, type FormListFieldData } from './utils/interface';
-import { useControlInstance } from './hooks/useContext';
+import { useControlInstance } from './core/useContext';
 
 const correctFieldsName = (fields: FormListFieldData[]) => {
   return fields.map((field, index) => {

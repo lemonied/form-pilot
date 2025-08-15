@@ -2,7 +2,7 @@ import React from 'react';
 import { cleanup, render } from '@testing-library/react';
 import Form from '../src/index';
 import type { Control } from '../src/index';
-import type { InternalControl } from '../src/hooks/store';
+import type { InternalControl } from '../src/core/store';
 import '@testing-library/jest-dom';
 import { Input } from '../docs/examples/components/Input';
 

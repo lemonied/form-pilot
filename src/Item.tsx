@@ -1,13 +1,13 @@
 import React from 'react';
-import FormControl, { useControl } from './hooks/Control';
-import type { SharedControlProps } from './hooks/Control';
+import FormControl, { useControl } from './core/Control';
+import type { SharedControlProps } from './core/Control';
 import { STORE_INTERNAL_TOKEN } from './utils/constants';
-import type { InternalControl } from './hooks/store';
-import { useWatch } from './hooks/useValue';
+import type { InternalControl } from './core/store';
+import { useWatch } from './core/useValue';
 import { defaultGetValueFromEvent } from './utils/valueUtil';
 import type { Rule } from './utils/interface';
 import { FormStoreType } from './utils/interface';
-import { useControlInstance, useControlContext } from './hooks/useContext';
+import { useControlInstance, useControlContext } from './core/useContext';
 import { executeRules } from './rules/core';
 
 interface InputProps extends Record<string, unknown> {

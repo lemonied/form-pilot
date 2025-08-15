@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Control, Validation } from './utils/interface';
-import { useValidation } from './hooks/useValidation';
-import { useOnValueChange } from './hooks/useValue';
-import { useMergedInstance } from './hooks/useContext';
+import { useValidation } from './core/useValidation';
+import { useOnValueChange } from './core/useValue';
+import { useMergedInstance } from './core/useContext';
 
 interface ValidationRenderProps {
   control?: Control;

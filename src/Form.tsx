@@ -1,18 +1,18 @@
 import React from 'react';
 import FormControl, {
   useControl,
-} from './hooks/Control';
+} from './core/Control';
 import { STORE_INTERNAL_TOKEN } from './utils/constants';
-import type { InternalControl } from './hooks/store';
-import type { SharedControlProps } from './hooks/Control';
+import type { InternalControl } from './core/store';
+import type { SharedControlProps } from './core/Control';
 import FormGroup from './Group';
 import FormList from './List';
 import FormItem from './Item';
-import { useOnValueChange, useWatch } from './hooks/useValue';
-import { useValidation } from './hooks/useValidation';
+import { useOnValueChange, useWatch } from './core/useValue';
+import { useValidation } from './core/useValidation';
 import { UpdateRender, ValidationRender } from './Render';
-import { useControlInstance } from './hooks/useContext';
-import { ConfigProvider, useConfig } from './hooks/ConfigProvider';
+import { useControlInstance } from './core/useContext';
+import { ConfigProvider, useConfig } from './core/ConfigProvider';
 import { FormStoreType } from './utils/interface';
 
 export interface FormProps extends Omit<SharedControlProps, 'initialValue'> {
