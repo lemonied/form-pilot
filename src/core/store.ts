@@ -246,7 +246,7 @@ export class FormStore {
     }
   };
 
-  public validateByEvent = (validator?: typeof this.validator) => {
+  public validateOnly = (validator?: typeof this.validator) => {
     const _validator = typeof validator === 'function' ? validator : this.validator;
     this.validating = _validator(this.internalControl);
     this.triggerValidationChange();
@@ -444,6 +444,7 @@ export class FormStore {
     validate: this.validate,
     validateFields: this.validateFields,
     getValidationErrors: this.getValidationErrors,
+    validateOnly: () => this.validateOnly(),
     clearValidation: this.clearValidation,
     add: this.add,
     remove: this.remove,

@@ -29,6 +29,7 @@ describe('FormItem', () => {
 
   test('FormItem render', () => {
     const formRef = React.createRef<Control>();
+    const mock = jest.fn();
     const { container } = render(
       <Form
         ref={formRef}
@@ -39,6 +40,7 @@ describe('FormItem', () => {
       >
         <Form.Item
           name="field1"
+          onChange={mock}
         >
           {
             (p) => {
@@ -61,6 +63,11 @@ describe('FormItem', () => {
     fireEvent.change(container.querySelector('#field1')!, {
       target: { value: 'test1' },
     });
+
+    expect(mock).toHaveBeenCalledTimes(1);
+    expect(mock.mock.lastCall?.[0]?.newValue).toBe('test1');
+    expect(mock.mock.lastCall?.[0]?.oldValue).toBe('');
+
     fireEvent.change(container.querySelector('#field2')!, {
       target: { value: 'test2' },
     });

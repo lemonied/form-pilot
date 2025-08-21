@@ -82,7 +82,7 @@ const FormItemContent = (props: FormItemContentProps) => {
     const fn = pre[key];
     pre[key] = (...args: any[]) => {
       fn?.(...args);
-      store.validateByEvent(async () => {
+      store.validateOnly(async () => {
         return await executeRules(control, validateMode, mergedRules.filter(rule => rule.validateTrigger.includes(key)));
       });
     };

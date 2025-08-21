@@ -40,6 +40,7 @@ export function useWatch(arg1?: NamePath | Control | ((values: any, ctl: Control
 
   const mergedControl = useMergedInstance(control) as InternalControl;
   const names = useNamePaths(name);
+  const [, forceUpdate] = React.useState({});
 
   const getValue = React.useCallback(() => {
     if (selector.current) {
@@ -50,19 +51,22 @@ export function useWatch(arg1?: NamePath | Control | ((values: any, ctl: Control
     }
     return mergedControl.getValue();
   }, [names, mergedControl]);
+  const getValueRef = React.useRef<typeof getValue>(null);
 
-  const [state, setState] = React.useState(() => getValue());
+  const stateRef = React.useRef<any>(undefined);
 
-  React.useEffect(() => {
-    setState(getValue());
-  }, [mergedControl, getValue]);
+  if (getValueRef.current !== getValue) {
+    getValueRef.current = getValue;
+    stateRef.current = getValue();
+  }
 
   useOnValueChange(() => {
     const newState = getValue();
-    if (!Object.is(state, newState)) {
-      setState(newState);
+    if (!Object.is(stateRef.current, newState)) {
+      stateRef.current = newState;
+      forceUpdate({});
     }
   }, mergedControl);
 
-  return state;
+  return stateRef.current;
 };

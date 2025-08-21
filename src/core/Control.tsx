@@ -1,12 +1,13 @@
 import React from 'react';
 import { FormStore } from './store';
-import type { InternalControl } from './store';
+import type { InternalControl, ValueChangeParameter } from './store';
 import type { NamePath, NonNullableNamePaths, Control, Rule, ValidateMode, ValidateTrigger } from '../utils/interface';
 import { FormStoreType } from '../utils/interface';
 import { useNamePaths } from '../utils/pathUtil';
 import { STORE_INTERNAL_TOKEN } from '../utils/constants';
 import { executeRules } from '../rules/core';
 import { useConfig } from './ConfigProvider';
+import { useOnValueChange } from './useValue';
 
 export interface FormControlContextType {
   control?: Control;
@@ -53,6 +54,7 @@ export interface SharedControlProps {
   validateMode?: ValidateMode;
   validateTrigger?: ValidateTrigger | ValidateTrigger[];
   ref?: React.Ref<Control | undefined | null>;
+  onChange?: (data: ValueChangeParameter, ctl: Control) => void;
 }
 
 interface FormControlContentProps extends Omit<SharedControlProps, 'name' | 'control'> {
@@ -67,6 +69,7 @@ const FormControlContent = (props: FormControlContentProps) => {
     namePaths,
     rules,
     ref,
+    onChange,
   } = props;
 
   const uniqueKeyRef = React.useRef({});
@@ -82,6 +85,10 @@ const FormControlContent = (props: FormControlContentProps) => {
   currentStore.setValidator(async (control) => {
     return await executeRules(control, validateMode, rules);
   });
+
+  useOnValueChange((data) => {
+    onChange?.(data, control);
+  }, control);
 
   React.useEffect(() => {
     if (!currentStore.stamp) {

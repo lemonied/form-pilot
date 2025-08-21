@@ -1,6 +1,6 @@
 {
   "name": "form-pilot",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A react library developed with dumi",
   "license": "MIT",
   "module": "lib/index.js",

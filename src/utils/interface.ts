@@ -27,6 +27,7 @@ export interface Control<Value = any> {
   reset: () => void;
   validate: (options?: ValidateOptions) => Promise<Value>;
   validateFields: <R = Value>(name?: NamePath[], options?: ValidateOptions & { recursive: boolean }) => Promise<R>;
+  validateOnly: () => void;
   getValidationErrors: () => ValidationError[] | undefined;
   clearValidation: () => void;
   add: <T = any>(initialValue?: T, insertIndex?: number) => void;

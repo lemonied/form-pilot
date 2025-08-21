@@ -19,11 +19,6 @@ export const useControlInstance = (root?: boolean): Control | undefined => {
 };
 
 export const useMergedInstance = (control?: Control) => {
-  const controlRef = React.useRef(control);
-  if (controlRef.current !== control) {
-    // eslint-disable-next-line no-console
-    console.warn('Parameter "control" cannot be variable.');
-  }
   const _control = useControlInstance();
-  return controlRef.current || _control;
+  return control || _control;
 };
