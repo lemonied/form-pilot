@@ -27,13 +27,14 @@ export interface Control<Value = any> {
   reset: () => void;
   validate: (options?: ValidateOptions) => Promise<Value>;
   validateFields: <R = Value>(name?: NamePath[], options?: ValidateOptions & { recursive: boolean }) => Promise<R>;
-  validateOnly: () => void;
   getValidationErrors: () => ValidationError[] | undefined;
   clearValidation: () => void;
   add: <T = any>(initialValue?: T, insertIndex?: number) => void;
   remove: (index: number) => void;
   move: (from: number, to: number) => void;
-  get: (name?: NamePath) => this | undefined;
+  get: <V=any>(name?: NamePath) => Control<V> | undefined;
+  getParent: <V=any>() => Control<V> | undefined;
+  getSibling: <V=any>(name?: NamePath) => Control<V> | undefined;
   getStoreStype(): FormStoreType;
 }
 

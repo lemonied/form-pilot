@@ -96,7 +96,7 @@ export class FormStore {
     return this.initialValue;
   }
 
-  public getInitializedValue() {
+  public getMergedValue() {
     if (this.type === FormStoreType.List && !Array.isArray(this.value)) {
       return [];
     }
@@ -147,7 +147,7 @@ export class FormStore {
       const [oldValueFromParent] = get(this.parent.value, this.namePaths);
       if (!Object.is(oldValueFromParent, newValue)) {
         nextParentValue = set(
-          this.parent.getInitializedValue(),
+          this.parent.getMergedValue(),
           this.namePaths,
           newValue,
         );
@@ -200,8 +200,8 @@ export class FormStore {
       return this.value;
     }
     let value: any;
-    const nameList = name?.map(toNamePaths) as (NonNullableNamePaths[] | undefined);
-    const currentValue = this.getInitializedValue();
+    const nameList = name?.map(toNamePaths);
+    const currentValue = this.getMergedValue();
     const recursion = (stores: Set<FormStore>, prefix: NamePaths = []) => {
       stores.forEach(store => {
         const relativeNamePaths = [...prefix, ...store.namePaths];
@@ -349,7 +349,7 @@ export class FormStore {
     } else {
       this.setData({
         value: set(
-          this.getInitializedValue(),
+          this.getMergedValue(),
           namePaths,
           value,
         ),
@@ -444,12 +444,13 @@ export class FormStore {
     validate: this.validate,
     validateFields: this.validateFields,
     getValidationErrors: this.getValidationErrors,
-    validateOnly: () => this.validateOnly(),
     clearValidation: this.clearValidation,
     add: this.add,
     remove: this.remove,
     move: this.move,
     get: this.get,
+    getParent: () => this.parent?.internalControl,
+    getSibling: (name) => this.parent?.get(name),
     getStoreStype: () => this.type,
   };
 

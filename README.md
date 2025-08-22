@@ -18,11 +18,13 @@ import React from 'react';
 import Form, { Rules } from 'form-pilot';
 import type { FormItemProps } from 'form-pilot';
 
-const CustomItem = (props: FormItemProps) => {
-  const control = Form.useControl(props.control);
+const CustomItem = (props: FormItemProps & { label?: React.ReactNode; }) => {
+  const { label, control: _control, ...restProps } = props;
+  const control = Form.useControl(_control);
   return (
     <div>
-      <Form.Item {...props} control={control} />
+      {label}
+      <Form.Item {...restProps} control={control} />
       <Form.Validation control={control}>
         {
           (validation) => {
@@ -31,10 +33,7 @@ const CustomItem = (props: FormItemProps) => {
                 {
                   validation?.results?.map((result, index) => {
                     return (
-                      <span
-                        key={index}
-                        style={{ color: result.type === 'error' ? 'red' : 'orange' }}
-                      >{result.message}</span>
+                      <span key={index} style={{ color: result.type === 'error' ? 'red' : 'orange' }} >{result.message}</span>
                     );
                   })
                 }
@@ -79,6 +78,44 @@ export default () => {
           <CustomItem name="age"><input type="number" /></CustomItem>
           <CustomItem name="email" rules={[Rules.email()]}><input /></CustomItem>
         </Form.Group>
+        <Form.Group
+          name="account"
+          onChange={(e, ctl) => {
+            const { newValue, oldValue } = e;
+            if (newValue?.password !== oldValue?.password || newValue?.confirmPassword !== oldValue?.confirmPassword) {
+              ctl.validateFields([
+                ['confirmPassword'],
+              ]);
+            }
+          }}
+        >
+          <CustomItem
+            label="密码"
+            name="password"
+            rules={[
+              Rules.required(),
+            ]}
+          >
+            <input type="password" />
+          </CustomItem>
+          <CustomItem
+            label="确认密码"
+            name="confirmPassword"
+            rules={[
+              {
+                validator(ctl) {
+                  const value = ctl.getValue();
+                  if (value && ctl.getSibling('password')?.getValue() !== value) {
+                    return Promise.reject(new Error('两次密码不一致！'));
+                  }
+                  return Promise.resolve();
+                },
+              },
+            ]}
+          >
+            <input type="password" />
+          </CustomItem>
+        </Form.Group>
         <Form.List name="skills">
           {
             (fields, control) => {
@@ -87,13 +124,24 @@ export default () => {
                   {
                     fields.map(field => {
                       return (
-                        <div key={field.key} style={{ display: 'flex' }}>
-                          <Form.Group name={field.name}>
-                            <CustomItem name="name"><input /></CustomItem>
-                            <CustomItem name="desc"><input /></CustomItem>
+                        <Form.Group name={field.name} key={field.key}>
+                          <div style={{ display: 'flex' }}>
+                            <CustomItem
+                              name="name"
+                              rules={[
+                                Rules.required(),
+                              ]}
+                            >
+                              <input />
+                            </CustomItem>
+                            <CustomItem
+                              name="desc"
+                            >
+                              <input />
+                            </CustomItem>
                             <button type="button" onClick={() => control.remove(field.name)}>remove this item</button>
-                          </Form.Group>
-                        </div>
+                          </div>
+                        </Form.Group>
                       );
                     })
                   }
