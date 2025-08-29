@@ -35,6 +35,7 @@ export interface Control<Value = any> {
   get: <V=any>(name?: NamePath) => Control<V> | undefined;
   getParent: <V=any>() => Control<V> | undefined;
   getSibling: <V=any>(name?: NamePath) => Control<V> | undefined;
+  getRoot: <V=any>() => Control<V>;
   getStoreStype(): FormStoreType;
 }
 

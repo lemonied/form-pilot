@@ -432,6 +432,13 @@ export class FormStore {
     return this.internalControl;
   };
 
+  public getRoot: Control['getRoot'] = () => {
+    if (this.parent) {
+      return this.parent.getRoot();
+    }
+    return this.internalControl;
+  };
+
   public control: Control = {
     getValue: () => this.value,
     getStrictValue: this.getStrictValue,
@@ -451,6 +458,7 @@ export class FormStore {
     get: this.get,
     getParent: () => this.parent?.internalControl,
     getSibling: (name) => this.parent?.get(name),
+    getRoot: this.getRoot,
     getStoreStype: () => this.type,
   };
 
